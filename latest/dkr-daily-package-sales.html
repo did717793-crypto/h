@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DKR 상품 판매 — 현금 · 다이아 · 플로린 (구성품 포함)</title>
+<style>
+  :root { --bg:#1A1A2E; --card:#252540; --card2:#22223B; --border:#2E2E50;
+          --gold:#F0C02D; --white:#FFF; --fg2:#CCC; --fg3:#8A8AA8; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:var(--bg); color:var(--fg2); font-family:'Noto Sans KR','Malgun Gothic',sans-serif; font-size:14px; line-height:1.6; }
+  .wrap { max-width:1240px; margin:0 auto; padding:0 26px 80px; }
+  header { padding:46px 0 24px; border-bottom:1px solid var(--gold); margin-bottom:20px; }
+  header .kicker { color:var(--gold); font-size:12px; letter-spacing:.2em; text-transform:uppercase; margin-bottom:10px; }
+  header h1 { color:var(--white); font-size:27px; font-weight:700; }
+  header .meta { color:var(--fg3); font-size:12.5px; margin-top:12px; line-height:1.7; }
+  .curtabs { display:flex; gap:10px; margin:22px 0 0; }
+  .cur-btn { cursor:pointer; background:var(--card2); border:1px solid var(--border); color:var(--fg3);
+             padding:12px 30px; border-radius:11px 11px 0 0; font-family:inherit; font-size:16px; font-weight:700; border-bottom:none; }
+  .cur-btn .cur-sum { display:block; font-size:11px; font-weight:400; margin-top:2px; }
+  .cur-btn.active { background:var(--gold); border-color:var(--gold); color:#1A1A2E; }
+  .cur-btn.active .cur-sum { color:#4a3d08; }
+  .cur-btn:hover:not(.active) { color:var(--gold); border-color:var(--gold); }
+  .tabs { display:flex; gap:8px; padding:12px 0 0 4px; margin-bottom:6px; border-top:1px solid var(--gold); }
+  .tab-btn { cursor:pointer; background:var(--card2); border:1px solid var(--border); color:var(--fg3);
+             padding:8px 20px; border-radius:8px; font-family:inherit; font-size:13.5px; font-weight:700; }
+  .tab-btn.active { background:#3a3a60; border-color:var(--gold); color:var(--white); }
+  .tab-btn:hover:not(.active) { color:var(--gold); border-color:var(--gold); }
+  .tabpage { display:none; }
+  .tabpage.active { display:block; }
+  .curmeta { color:var(--fg3); font-size:12px; margin:8px 0 0 4px; line-height:1.7; }
+  .curmeta strong { color:var(--white); font-weight:700; }
+  h2 { color:var(--white); font-size:18px; font-weight:700; margin:26px 0 10px; }
+  h2 small { color:var(--fg3); font-size:12px; font-weight:400; margin-left:8px; }
+  .chartbox { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:16px; overflow-x:auto; }
+  .legend { display:flex; flex-wrap:wrap; gap:6px 14px; margin-top:10px; font-size:11.5px; color:var(--fg3); }
+  .legend span { display:inline-flex; align-items:center; gap:5px; cursor:pointer; padding:2px 7px; border-radius:6px; border:1px solid transparent; transition:.12s; }
+  .legend span:hover { color:var(--gold); }
+  .legend span.sel { border-color:var(--gold); color:var(--white); background:#161628; }
+  .legend span.dim { opacity:.3; }
+  .legend i { width:10px; height:10px; border-radius:2px; display:inline-block; }
+  svg g.series { transition:opacity .18s; }
+  svg g.series.dim { opacity:.09; }
+  .scalenote { color:var(--gold); font-size:11.5px; margin-top:6px; display:none; }
+  .scalenote.show { display:block; }
+  .ranklist { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:8px 0; max-height:640px; overflow-y:auto; }
+  .rankrow { display:flex; align-items:center; gap:10px; padding:5px 16px; cursor:pointer; }
+  .rankrow:hover { background:var(--card2); }
+  .rankrow.sel { background:#161628; box-shadow:inset 3px 0 0 var(--gold); }
+  .rankrow .rk { color:var(--fg3); width:34px; text-align:right; font-size:11.5px; flex:none; }
+  .rankrow .nm { width:320px; flex:none; color:var(--white); font-size:12.5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .rankrow .barwrap { flex:1; height:14px; background:#161628; border-radius:4px; overflow:hidden; }
+  .rankrow .bar { height:100%; border-radius:4px; background:linear-gradient(90deg, #F0C02D, #d99e12); }
+  .rankrow .val { width:140px; flex:none; text-align:right; color:var(--fg2); font-size:12px; font-variant-numeric:tabular-nums; }
+  #tooltip { position:fixed; display:none; z-index:200; background:#12121f; border:1px solid var(--gold); border-radius:9px;
+             padding:12px 14px; font-size:12.5px; max-width:400px; box-shadow:0 8px 30px rgba(0,0,0,.55); pointer-events:none; }
+  #tooltip .tt-title { color:var(--gold); font-weight:700; font-size:13px; margin-bottom:4px; }
+  #tooltip .tt-sub { color:var(--fg2); margin-bottom:7px; }
+  #tooltip .tt-items { border-top:1px solid var(--border); padding-top:7px; max-height:260px; overflow:hidden; }
+  #tooltip .tt-items .lab { color:var(--fg3); font-size:11px; letter-spacing:.06em; text-transform:uppercase; margin-bottom:4px; }
+  #tooltip .tt-items div.it { color:var(--fg2); line-height:1.55; }
+  #tooltip .tt-items div.it b { color:var(--white); font-weight:500; }
+  footer { margin-top:50px; padding-top:14px; border-top:1px solid var(--border); color:var(--fg3); font-size:11.5px; display:flex; justify-content:space-between; }
+  svg text { font-family:'Noto Sans KR','Malgun Gothic',sans-serif; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker" id="kicker">DKR · Product Sales</div>
+  <h1 id="title">상품 판매 — 현금 · 다이아 · 플로린 (구성품 포함)</h1>
+  <div class="meta" id="periodmeta">
+    기간 계산 중…
+  </div>
+</header>
+
+<div class="curtabs" id="curtabs"></div>
+<div class="tabs" id="subtabs">
+  <button class="tab-btn active" data-metric="qty">판매량 별</button>
+  <button class="tab-btn" data-metric="amt">판매 금액별</button>
+</div>
+<div class="curmeta" id="curmeta"></div>
+
+<div id="pages"></div>
+
+<footer>
+  <div>Copyright © NTRANCE Corp. · 사내 기밀 — 외부 공유 금지</div>
+  <div id="genstamp">생성 시각 계산 중…</div>
+</footer>
+
+</div>
+<div id="tooltip"></div>
+
+<script>
+'use strict';
+
+const PAYLOAD = {"start_dt": "2026-08-08", "end_dt": "2026-08-08", "generated_at": "2026-08-11T16:13:14", "cash": {"daily": [["2026-08-08", "(1단계) 신화 변신 도전 스텝업 패키지I", 2, 22000], ["2026-08-08", "120 다이아", 1, 3300], ["2026-08-08", "1200 다이아", 2, 66000], ["2026-08-08", "2000 다이아", 2, 110000], ["2026-08-08", "400 다이아", 3, 33000], ["2026-08-08", "거래소 특권 패키지 H (귀속)", 5, 168568], ["2026-08-08", "거래소 특권 패키지 W (귀속)", 9, 108601], ["2026-08-08", "고대 성검 룰렛 2탄 패키지I", 4, 137352], ["2026-08-08", "고대 성검 룰렛 2탄 패키지II", 3, 170397], ["2026-08-08", "고대 성검 룰렛 2탄 패키지III", 29, 3180875], ["2026-08-08", "광고 스킵 & 새턴의 보상 특권 H (30일)", 2, 25538], ["2026-08-08", "광고 스킵 & 새턴의 보상 특권 W (30일)", 6, 73212], ["2026-08-08", "광고 스킵 & 새턴의 보상 특권(30일)", 11, 124538], ["2026-08-08", "님블 래빗 코스튬 번들", 1, 33000], ["2026-08-08", "대천사 코스튬 번들", 2, 66000], ["2026-08-08", "듀크 코스튬 번들", 2, 66000], ["2026-08-08", "머슬 래빗 코스튬 번들", 3, 100213], ["2026-08-08", "메이드 코스튬 번들", 3, 99000], ["2026-08-08", "바람 정령탑 선물 상자", 2, 25538], ["2026-08-08", "산타 코스튬 번들", 1, 33000], ["2026-08-08", "산타걸 코스튬 번들", 3, 99000], ["2026-08-08", "성천사 코스튬 번들", 2, 66000], ["2026-08-08", "스노우걸 코스튬 번들", 3, 99000], ["2026-08-08", "스노우맨 코스튬 번들", 1, 33000], ["2026-08-08", "스쿨룩F 코스튬 번들", 1, 33000], ["2026-08-08", "스쿨룩M 코스튬 번들", 3, 175635], ["2026-08-08", "스킬북 제작 도전 패키지", 4, 44000], ["2026-08-08", "시련 던전 특권(30일) I 패키지(귀속)", 1, 34784], ["2026-08-08", "시련 던전 특권(30일) II_패키지(귀속)", 1, 34784], ["2026-08-08", "신령의 보옥 패키지", 3, 38307], ["2026-08-08", "신화 도전 룰렛 2탄 패키지II", 4, 246406], ["2026-08-08", "신화 도전 룰렛 2탄 패키지III", 1, 110000], ["2026-08-08", "신화 문장 강화 패키지I", 2, 219635], ["2026-08-08", "신화 문장 강화 패키지III", 60, 739945], ["2026-08-08", "썸머 걸즈 코스튬 번들", 2, 143000], ["2026-08-08", "오션 보이즈 코스튬 번들", 5, 318635], ["2026-08-08", "오프라인 전투 특권 H (30일)", 1, 33000], ["2026-08-08", "오프라인 전투 특권 W (30일)", 4, 51144], ["2026-08-08", "오프라인 전투 특권(30일)", 1, 33000], ["2026-08-08", "일일 한정 변신 소환 패키지III", 1, 5500], ["2026-08-08", "주말 한정 고대 성검 룰렛 2탄 패키지I", 28, 934704], ["2026-08-08", "주말 한정 고대 성검 룰렛 2탄 패키지II", 31, 1717593], ["2026-08-08", "주말 한정 신화 도전 룰렛 2탄 패키지I", 49, 1649026], ["2026-08-08", "주말 한정 신화 도전 룰렛 2탄 패키지II", 80, 4660837], ["2026-08-08", "큐트 래빗 코스튬 번들", 2, 66000]], "items": {"고대 성검 룰렛 2탄 패키지I": [["고대 성검 인장 II(귀속)", 90]], "대천사 코스튬 번들": [["🎲 루니엘 영구제 소환권(귀속)", 1], ["🎲 우미엘 영구제 소환권(귀속)", 1], ["🎲 이세리온 영구제 소환권(귀속)", 1], ["🎲 테르미온 영구제 소환권(귀속)", 1]], "시련 던전 특권(30일) II_패키지(귀속)": [["다이아 (귀속)", 600], ["CP (귀속)", 1000000], ["미스터리 큐브(귀속)", 900]], "오션 보이즈 코스튬 번들": [["🎲 아쿠아 레이더 영구제 소환권 (귀속)", 1], ["🎲 썬셋 보이저 영구제 소환권 (귀속)", 1], ["🎲 블랙 타이드 영구제 소환권 (귀속)", 1], ["26.07.30", 1], ["신화 문장 강화석 (귀속)", 20], ["🎲 [전설] 미궁의 문장 상자", 100]], "큐트 래빗 코스튬 번들": [["🎲 화이트 큐트 래빗 영구제 소환권 (귀속)", 1], ["🎲 핑크 큐트 래빗 영구제 소환권 (귀속)", 1], ["🎲 브라운 큐트 래빗 영구제 소환권 (귀속)", 1]], "썸머 걸즈 코스튬 번들": [["🎲 아쿠아 세레나 영구제 소환권 (귀속)", 1], ["🎲 코랄 선셋 영구제 소환권 (귀속)", 1], ["🎲 블랙 마리나 영구제 소환권 (귀속)", 1]], "거래소 특권 패키지 H (귀속)": [["아바타 소환권 (귀속)", 60], ["서번트 소환권 (귀속)", 60]], "일일 한정 변신 소환 패키지III": [["아바타 소환권 (귀속)", 120], ["올마이티 주문서 (귀속)", 30], ["메디테이션 주문서 (귀속)", 30], ["성서 에오스", 1]], "신화 문장 강화 패키지III": [["신화 문장 강화석 (귀속)", 3], ["🎲 [전설] 미궁의 문장 상자", 15]], "머슬 래빗 코스튬 번들": [["🎲 바벨 머슬 래빗 영구제 소환권 (귀속)", 1], ["🎲 스쿼트 머슬 래빗 영구제 소환권 (귀속)", 1], ["🎲 스트렝스 머슬 래빗 영구제 소환권 (귀속)", 1]], "스쿨룩F 코스튬 번들": [["🎲 세인트 스칼라 영구제 소환권(귀속)", 1], ["🎲 베이지 스칼라 영구제 소환권(귀속)", 1], ["🎲 스타라이트 스칼라 영구제 소환권(귀속)", 1]], "광고 스킵 & 새턴의 보상 특권 W (30일)": [["아바타 소환권 (귀속)", 300], ["서번트 소환권 (귀속)", 300]], "오프라인 전투 특권 H (30일)": [["아바타 소환권 (귀속)", 60], ["서번트 소환권 (귀속)", 60]], "신화 도전 룰렛 2탄 패키지II": [["신화 도전 인장 II(귀속)", 250]], "스쿨룩M 코스튬 번들": [["🎲 아르카나 영구제 소환권(귀속)", 1], ["🎲 아스트라 펠로우 영구제 소환권(귀속)", 1], ["🎲 실버 애프렌티스 영구제 소환권(귀속)", 1]], "주말 한정 고대 성검 룰렛 2탄 패키지II": [["고대 성검 인장 II(귀속)", 250]], "성천사 코스튬 번들": [["🎲 루미나 영구제 소환권(귀속)", 1], ["🎲 엘리나 영구제 소환권(귀속)", 1], ["🎲 세리아 영구제 소환권(귀속)", 1], ["🎲 헤르미나 영구제 소환권(귀속)", 1]], "오프라인 전투 특권 W (30일)": [["아바타 소환권 (귀속)", 300], ["서번트 소환권 (귀속)", 300]], "스킬북 제작 도전 패키지": [["🎲 [희귀] 마력의 양피지 상자(귀속)", 5000], ["빛바랜 현자의 돌 (귀속)", 200], ["상급 에스텔라의 별빛 주문서 (귀속)", 25]], "듀크 코스튬 번들": [["🎲 노블 듀크 영구제 소환권 (귀속)", 1], ["🎲 미드나잇 듀크 영구제 소환권 (귀속)", 1], ["🎲 쉐도우 듀크 영구제 소환권 (귀속)", 1]], "스노우맨 코스튬 번들": [["🎲 노엘 스노우맨 영구제 소환권 (귀속)", 1], ["🎲 버밀리언 스노우맨 영구제 소환권 (귀속)", 1], ["🎲 프로스트 스노우맨 영구제 소환권 (귀속)", 1]], "광고 스킵 & 새턴의 보상 특권(30일)": [["다이아 (귀속)", 200], ["CP (귀속)", 330000], ["미스터리 큐브(귀속)", 300]], "1200 다이아": [["다이아 (귀속)", 1200], ["프리미엄 아티팩트 교환권 (귀속)", 30]], "(1단계) 신화 변신 도전 스텝업 패키지I": [["아바타 소환권 (귀속)", 400], ["올마이티 주문서 (귀속)", 200], ["성서 에오스", 1]], "주말 한정 고대 성검 룰렛 2탄 패키지I": [["고대 성검 인장 II(귀속)", 135]], "주말 한정 신화 도전 룰렛 2탄 패키지I": [["신화 도전 인장 II(귀속)", 180]], "산타 코스튬 번들": [["🎲 열정의 산타 영구제 소환권 (귀속)", 1], ["🎲 차분한 산타 영구제 소환권 (귀속)", 1], ["🎲 현명한 산타 영구제 소환권 (귀속)", 1]], "산타걸 코스튬 번들": [["🎲 정열적인 산타걸 영구제 소환권 (귀속)", 1], ["🎲 자애로운 산타걸 영구제 소환권 (귀속)", 1], ["🎲 고고한 산타 걸 영구제 소환권 (귀속)", 1]], "주말 한정 신화 도전 룰렛 2탄 패키지II": [["신화 도전 인장 II(귀속)", 375]], "메이드 코스튬 번들": [["🎲 클래식 메이드 영구제 소환권 (귀속)", 1], ["🎲 러블리 메이드 영구제 소환권 (귀속)", 1], ["🎲 스윗 메이드 영구제 소환권 (귀속)", 1]], "스노우걸 코스튬 번들": [["🎲 레이븐 스노우걸 영구제 소환권 (귀속)", 1], ["🎲 스칼렛 스노우걸 영구제 소환권 (귀속)", 1], ["🎲 글라시아 스노우걸 영구제 소환권 (귀속)", 1]], "신령의 보옥 패키지": [["신령의 보옥 (귀속)", 1], ["불 정령탑 이용권(귀속)", 10]], "신화 도전 룰렛 2탄 패키지III": [["신화 도전 인장 II(귀속)", 600]], "2000 다이아": [["다이아 (귀속)", 2000], ["프리미엄 아티팩트 교환권 (귀속)", 50]], "바람 정령탑 선물 상자": [["바람 정령탑 이용권(귀속)", 16], ["아바타 소환권 (귀속)", 40], ["서번트 소환권 (귀속)", 40], ["결투장 입장권 교환 토큰 (귀속)", 25], ["경쟁전 입장 교환 토큰 선택 상자(귀속)", 15]], "400 다이아": [["다이아 (귀속)", 400], ["프리미엄 아티팩트 교환권 (귀속)", 10]], "님블 래빗 코스튬 번들": [["🎲 화이트 님블 래빗 영구제 소환권 (귀속)", 1], ["🎲 핑크 님블 래빗 영구제 소환권 (귀속)", 1], ["🎲 브라운 님블 래빗 영구제 소환권 (귀속)", 1]], "고대 성검 룰렛 2탄 패키지II": [["고대 성검 인장 II(귀속)", 175]], "시련 던전 특권(30일) I 패키지(귀속)": [["다이아 (귀속)", 600], ["CP (귀속)", 1000000], ["미스터리 큐브(귀속)", 900]], "거래소 특권 패키지 W (귀속)": [["아바타 소환권 (귀속)", 300], ["서번트 소환권 (귀속)", 300]], "120 다이아": [["다이아 (귀속)", 120], ["프리미엄 아티팩트 교환권 (귀속)", 3]], "고대 성검 룰렛 2탄 패키지III": [["고대 성검 인장 II(귀속)", 400]], "신화 문장 강화 패키지I": [["신화 문장 강화석 (귀속)", 50], ["🎲 [전설] 미궁의 문장 상자", 250]], "광고 스킵 & 새턴의 보상 특권 H (30일)": [["아바타 소환권 (귀속)", 20], ["서번트 소환권 (귀속)", 20]], "오프라인 전투 특권(30일)": [["다이아 (귀속)", 600], ["CP (귀속)", 1000000], ["미스터리 큐브(귀속)", 900]]}}, "dia": {"daily": [["2026-08-08", "(1단계) 찬란한 빛의 결정 24,000개", 3, 300], ["2026-08-08", "(4단계) 주얼 스탭 업 IV", 1, 500], ["2026-08-08", "[영웅] 봉인된 스킬북", 2, 1100], ["2026-08-08", "고대의 결투 주문서", 55, 990], ["2026-08-08", "고대의 방어 주문서", 3, 126], ["2026-08-08", "고대의 보호 주문서", 86, 3096], ["2026-08-08", "고대의 용기 주문서", 57, 684], ["2026-08-08", "고대의 의지 주문서", 3, 36], ["2026-08-08", "고대의 저항 주문서", 33, 396], ["2026-08-08", "고대의 전투 주문서", 66, 3960], ["2026-08-08", "고대의 축복 주문서", 34, 204], ["2026-08-08", "고대의 투지 주문서", 68, 1632], ["2026-08-08", "고대의 회복 주문서", 55, 330], ["2026-08-08", "대지 정령탑 이용권", 160, 8000], ["2026-08-08", "락시움 성전 이용권", 40, 2000], ["2026-08-08", "루멘의 무한 축복 패스 III", 19, 22800], ["2026-08-08", "루베스의 고대 도안", 50, 2000000], ["2026-08-08", "루베스의 수집 상자", 19428, 1942800], ["2026-08-08", "모르모트 안식처 이용권", 10, 500], ["2026-08-08", "물 정령탑 이용권", 20, 1000], ["2026-08-08", "바람 정령탑 이용권", 200, 10000], ["2026-08-08", "불 정령탑 이용권", 90, 4500], ["2026-08-08", "성서 10개", 64, 32000], ["2026-08-08", "성서 1개", 92, 5060], ["2026-08-08", "악의 진격 이용권", 140, 7000], ["2026-08-08", "주말 한정 마력의 양피지 패키지", 4, 4000], ["2026-08-08", "주말 한정 바람 정령탑 패키지", 98, 39200], ["2026-08-08", "주말 한정 유물 강화 패키지", 35, 17500], ["2026-08-08", "주말 한정 유물 패키지", 6, 3000], ["2026-08-08", "주말 한정 탈리스만 패키지", 26, 26000], ["2026-08-08", "트리시움 성전 이용권", 10, 500], ["2026-08-08", "파이썬의 요람 이용권", 10, 500], ["2026-08-08", "헬렌 안식처 이용권", 20, 1000]], "items": {"고대의 의지 주문서": [["고대의 의지 주문서 (귀속)", 1]], "고대의 저항 주문서": [["고대의 저항 주문서 (귀속)", 1]], "고대의 전투 주문서": [["고대의 전투 주문서 (귀속)", 1]], "고대의 용기 주문서": [["고대의 용기 주문서 (귀속)", 1]], "루베스의 고대 도안": [["루베스의 고대 도안", 1]], "(4단계) 주얼 스탭 업 IV": [["찬란한 빛의 결정 (귀속)", 100000]], "[영웅] 봉인된 스킬북": [["[영웅] 봉인된 스킬북(귀속)", 1]], "루멘의 무한 축복 패스 III": [["아이템 0", 1]], "바람 정령탑 이용권": [["바람 정령탑 이용권(귀속)", 1]], "주말 한정 마력의 양피지 패키지": [["🎲 [희귀] 마력의 양피지 상자(귀속)", 2000], ["🎲 희귀 변신 확정 소환권 (귀속)", 3], ["🎲 희귀 마법 인형 확정 소환권 (귀속)", 3], ["CP (귀속)", 10000000]], "성서 1개": [["성서 디오네", 1]], "루베스의 수집 상자": [["🎲 루베스의 수집 상자 (귀속)", 1]], "(1단계) 찬란한 빛의 결정 24,000개": [["찬란한 빛의 결정 (귀속)", 24000]], "고대의 보호 주문서": [["고대의 보호 주문서 (귀속)", 1]], "고대의 결투 주문서": [["고대의 결투 주문서 (귀속)", 1]], "모르모트 안식처 이용권": [["모르모트의 길 이용권(귀속)", 1]], "파이썬의 요람 이용권": [["파이썬의 영역 이용권(귀속)", 1]], "성서 10개": [["성서 디오네", 10]], "주말 한정 탈리스만 패키지": [["신령의 흔적 (귀속)", 50000]], "고대의 축복 주문서": [["고대의 축복 주문서 (귀속)", 1]], "대지 정령탑 이용권": [["대지 정령탑 이용권(귀속)", 1]], "악의 진격 이용권": [["악의 진격 이용권 (귀속)", 1]], "헬렌 안식처 이용권": [["헬렌의 길 이용권(귀속)", 1]], "주말 한정 바람 정령탑 패키지": [["바람 정령탑 이용권(귀속)", 40]], "주말 한정 유물 강화 패키지": [["일반 유물 강화석 (귀속)", 2500], ["CP (귀속)", 5000000]], "고대의 회복 주문서": [["고대의 회복 주문서 (귀속)", 1]], "고대의 방어 주문서": [["고대의 방어 주문서 (귀속)", 1]], "불 정령탑 이용권": [["불 정령탑 이용권(귀속)", 1]], "주말 한정 유물 패키지": [["🎲 [희귀]미궁의 유물 상자 (귀속)", 200], ["CP (귀속)", 5000000]], "고대의 투지 주문서": [["고대의 투지 주문서 (귀속)", 1]], "락시움 성전 이용권": [["락시움 유적 이용권(귀속)", 1]], "트리시움 성전 이용권": [["트리시움 유적 이용권(귀속)", 1]], "물 정령탑 이용권": [["물 정령탑 이용권(귀속)", 1]]}}, "florin": {"daily": [["2026-08-08", "(1단계) 투기장 입장권", 12404, 3101000000], ["2026-08-08", "100레벨 달성 하이퍼 패키지", 3, 12000000], ["2026-08-08", "106레벨 달성 하이퍼 패키지", 3, 12000000], ["2026-08-08", "110레벨 달성 하이퍼 패키지", 3, 12000000], ["2026-08-08", "112레벨 달성 하이퍼 패키지", 6, 24000000], ["2026-08-08", "113레벨 달성 하이퍼 패키지", 3, 12000000], ["2026-08-08", "114레벨 달성 하이퍼 패키지", 3, 12000000], ["2026-08-08", "115레벨 달성 하이퍼 패키지", 3, 12000000], ["2026-08-08", "116레벨 달성 하이퍼 패키지", 3, 12000000], ["2026-08-08", "117레벨 달성 하이퍼 패키지", 6, 24000000], ["2026-08-08", "118레벨 달성 하이퍼 패키지", 6, 24000000], ["2026-08-08", "120레벨 달성 하이퍼 패키지", 3, 12000000], ["2026-08-08", "20레벨 달성 하이퍼 패키지", 12, 48000000], ["2026-08-08", "25레벨 달성 하이퍼 패키지", 12, 48000000], ["2026-08-08", "30레벨 달성 하이퍼 패키지", 6, 24000000], ["2026-08-08", "35레벨 달성 하이퍼 패키지", 6, 24000000], ["2026-08-08", "40레벨 달성 하이퍼 패키지", 6, 24000000], ["2026-08-08", "45레벨 달성 하이퍼 패키지", 3, 12000000], ["2026-08-08", "60레벨 달성 하이퍼 패키지", 6, 24000000], ["2026-08-08", "61레벨 달성 하이퍼 패키지", 1, 4000000], ["2026-08-08", "63레벨 달성 하이퍼 패키지", 1, 4000000], ["2026-08-08", "72레벨 달성 하이퍼 패키지", 3, 12000000], ["2026-08-08", "73레벨 달성 하이퍼 패키지", 3, 12000000], ["2026-08-08", "74레벨 달성 하이퍼 패키지", 3, 12000000], ["2026-08-08", "75레벨 달성 하이퍼 패키지", 3, 12000000], ["2026-08-08", "82레벨 달성 하이퍼 패키지", 3, 12000000], ["2026-08-08", "93레벨 달성 하이퍼 패키지", 3, 12000000], ["2026-08-08", "94레벨 달성 하이퍼 패키지", 3, 12000000], ["2026-08-08", "96레벨 달성 하이퍼 패키지", 6, 24000000], ["2026-08-08", "97레벨 달성 하이퍼 패키지", 6, 24000000], ["2026-08-08", "98레벨 달성 하이퍼 패키지", 6, 24000000], ["2026-08-08", "99레벨 달성 하이퍼 패키지", 3, 12000000], ["2026-08-08", "[고급] 미궁의 문장 상자 500개", 1838, 1838000000], ["2026-08-08", "[고급] 미궁의 유물 상자 250개", 229, 229000000], ["2026-08-08", "[고급] 미궁의 유물 상자 500개", 1617, 1617000000], ["2026-08-08", "[일반] 유물 강화석 250개", 237, 237000000], ["2026-08-08", "[일반] 유물 강화석 500개", 1752, 1752000000], ["2026-08-08", "[전설] 불완전한 넥타르 10개", 62, 6200000000], ["2026-08-08", "결투장 입장권", 16913, 50739000000], ["2026-08-08", "결투장 입장권_1", 39903, 9975750000], ["2026-08-08", "고대 성검 룰렛 이벤트 패스", 369, 36900000000], ["2026-08-08", "귀환 주문서 (귀속)", 1785, 1785000], ["2026-08-08", "나드카스 탑 모래 시계 - 1시간", 2643, 13215000000], ["2026-08-08", "니알라의 비밀금고 모래 시계 - 1시간", 1633, 8165000000], ["2026-08-08", "대지 정령탑 이용권", 2126, 2126000000], ["2026-08-08", "디오네의 일반~전설 변신 픽업 소환권", 7000, 8400000000], ["2026-08-08", "락시움 성전 이용권", 2258, 2258000000], ["2026-08-08", "루멘탑 모래 시계 - 1시간", 4798, 23990000000], ["2026-08-08", "루멘탑 순간 이동 주문서 (귀속)", 6126, 612600000], ["2026-08-08", "마법인형 소환 (100회)", 1263, 126300000000], ["2026-08-08", "마법인형 소환 (10회)", 122, 1220000000], ["2026-08-08", "마법인형 소환 (1회)", 13, 15600000], ["2026-08-08", "마법인형 소환 (30회)", 33, 990000000], ["2026-08-08", "마법인형 소환 티켓", 2016, 2047200000], ["2026-08-08", "망자의 묘지 모래 시계 - 1시간", 2188, 10940000000], ["2026-08-08", "모르모트 안식처 이용권", 2237, 2237000000], ["2026-08-08", "문장 파편 500,000개", 1972, 1972000000], ["2026-08-08", "물 정령탑 이용권", 2145, 2145000000], ["2026-08-08", "바람 정령탑 이용권", 2161, 2161000000], ["2026-08-08", "변신 소환 (100회)", 4023, 402300000000], ["2026-08-08", "변신 소환 (10회)", 61, 610000000], ["2026-08-08", "변신 소환 (1회)", 51, 61200000], ["2026-08-08", "변신 소환 (30회)", 72, 2160000000], ["2026-08-08", "변신 소환 티켓", 2027, 2061300000], ["2026-08-08", "불 정령탑 이용권", 2181, 2181000000], ["2026-08-08", "성서 에오스", 4774, 52514000000], ["2026-08-08", "성서 에오스 10개", 226, 22600000000], ["2026-08-08", "속도의 물약 : 1단계 (귀속)", 96146, 96146000], ["2026-08-08", "순간 이동 주문서 (귀속)", 8281, 41405000], ["2026-08-08", "신화 도전 룰렛 이벤트 패스", 337, 33700000000], ["2026-08-08", "아스몬의 저주", 56722, 17016600000], ["2026-08-08", "악의 진격 이용권", 2094, 2094000000], ["2026-08-08", "에오스의 고대 도안", 5234, 2093600000000], ["2026-08-08", "에오스의 수집 상자", 402615, 402615000000], ["2026-08-08", "에오스의 일반~전설 마법인형 픽업 소환권", 18, 21600000], ["2026-08-08", "에오스의 일반~전설 변신 픽업 소환권", 3822, 4586400000], ["2026-08-08", "용의 마력 결정 5,000개", 644, 32200000000], ["2026-08-08", "유물 제련석 25,000개", 1930, 1930000000], ["2026-08-08", "찬란한 빛의 결정 5,000개", 620, 31000000000], ["2026-08-08", "천상의 결투 주문서", 104, 18720000], ["2026-08-08", "천상의 방어 주문서", 104, 43680000], ["2026-08-08", "천상의 보호 주문서", 104, 37440000], ["2026-08-08", "천상의 용기 주문서", 104, 12480000], ["2026-08-08", "천상의 의지 주문서", 104, 12480000], ["2026-08-08", "천상의 저항 주문서", 705, 84600000], ["2026-08-08", "천상의 전투 주문서", 205, 123000000], ["2026-08-08", "천상의 축복 주문서", 705, 42300000], ["2026-08-08", "천상의 투지 주문서", 104, 24960000], ["2026-08-08", "천상의 회복 주문서", 126, 7560000], ["2026-08-08", "체력 회복제 (귀속)", 3757909, 751581800], ["2026-08-08", "초보자의 마법 지팡이(귀속)", 4, 40000], ["2026-08-08", "초보자의 신성 지팡이(귀속)", 2, 20000], ["2026-08-08", "초보자의 장검(귀속)", 55, 550000], ["2026-08-08", "캐릭터명 변경권", 51, 2550000000], ["2026-08-08", "투기장 입장권", 6425, 19275000000], ["2026-08-08", "트리시움 성전 이용권", 2236, 2236000000], ["2026-08-08", "파이썬의 요람 이용권", 2174, 2174000000], ["2026-08-08", "헬렌 안식처 이용권", 2246, 2246000000]], "items": {"속도의 물약 : 1단계 (귀속)": [["속도의 물약 (귀속)", 1]], "유물 제련석 25,000개": [["유물 제련석 (귀속)", 25000]], "성서 에오스": [["성서 에오스", 1]], "찬란한 빛의 결정 5,000개": [["찬란한 빛의 결정 (귀속)", 5000]], "(1단계) 투기장 입장권": [["투기장 입장권 (귀속)", 1]], "마법인형 소환 (100회)": [["🎲 마법인형 소환 — 확률 지급", 0]], "63레벨 달성 하이퍼 패키지": [["상급 에스텔라의 별빛 주문서 (귀속)", 26], ["미스터리 큐브(귀속)", 2600], ["아바타 소환권 (귀속)", 26], ["서번트 소환권 (귀속)", 26]], "마법인형 소환 티켓": [["서번트 소환권 (귀속)", 1]], "나드카스 탑 모래 시계 - 1시간": [["나드카스 탑 모래 시계(귀속) - 1시간", 1]], "트리시움 성전 이용권": [["트리시움 유적 이용권(귀속)", 1]], "마법인형 소환 (30회)": [["🎲 마법인형 소환 — 확률 지급", 0]], "천상의 보호 주문서": [["천상의 보호 주문서 (귀속)", 1]], "천상의 의지 주문서": [["천상의 의지 주문서 (귀속)", 1]], "귀환 주문서 (귀속)": [["순간 이동 주문서", 1]], "에오스의 일반~전설 변신 픽업 소환권": [["🎲 에오스의 일반~전설 변신 픽업 소환권(귀속)", 1]], "73레벨 달성 하이퍼 패키지": [["상급 에스텔라의 별빛 주문서 (귀속)", 46], ["미스터리 큐브(귀속)", 4600], ["아바타 소환권 (귀속)", 46], ["서번트 소환권 (귀속)", 46]], "120레벨 달성 하이퍼 패키지": [["상급 에스텔라의 별빛 주문서 (귀속)", 140], ["미스터리 큐브(귀속)", 14000], ["아바타 소환권 (귀속)", 140], ["서번트 소환권 (귀속)", 140]], "헬렌 안식처 이용권": [["헬렌의 길 이용권(귀속)", 1]], "불 정령탑 이용권": [["불 정령탑 이용권(귀속)", 1]], "[일반] 유물 강화석 250개": [["일반 유물 강화석 (귀속)", 250]], "112레벨 달성 하이퍼 패키지": [["상급 에스텔라의 별빛 주문서 (귀속)", 124], ["미스터리 큐브(귀속)", 12400], ["아바타 소환권 (귀속)", 124], ["서번트 소환권 (귀속)", 124]], "천상의 결투 주문서": [["천상의 결투 주문서 (귀속)", 1]], "99레벨 달성 하이퍼 패키지": [["상급 에스텔라의 별빛 주문서 (귀속)", 98], ["미스터리 큐브(귀속)", 9800], ["아바타 소환권 (귀속)", 98], ["서번트 소환권 (귀속)", 98]], "락시움 성전 이용권": [["락시움 유적 이용권(귀속)", 1]], "순간 이동 주문서 (귀속)": [["귀환 주문서 (귀속)", 1]], "물 정령탑 이용권": [["물 정령탑 이용권(귀속)", 1]], "악의 진격 이용권": [["악의 진격 이용권 (귀속)", 1]], "용의 마력 결정 5,000개": [["용의 마력 결정 (귀속)", 5000]], "천상의 방어 주문서": [["천상의 방어 주문서 (귀속)", 1]], "114레벨 달성 하이퍼 패키지": [["상급 에스텔라의 별빛 주문서 (귀속)", 128], ["미스터리 큐브(귀속)", 12800], ["아바타 소환권 (귀속)", 128], ["서번트 소환권 (귀속)", 128]], "투기장 입장권": [["투기장 입장권 (귀속)", 1]], "74레벨 달성 하이퍼 패키지": [["상급 에스텔라의 별빛 주문서 (귀속)", 48], ["미스터리 큐브(귀속)", 4800], ["아바타 소환권 (귀속)", 48], ["서번트 소환권 (귀속)", 48]], "116레벨 달성 하이퍼 패키지": [["상급 에스텔라의 별빛 주문서 (귀속)", 132], ["미스터리 큐브(귀속)", 13200], ["아바타 소환권 (귀속)", 132], ["서번트 소환권 (귀속)", 132]], "75레벨 달성 하이퍼 패키지": [["상급 에스텔라의 별빛 주문서 (귀속)", 50], ["미스터리 큐브(귀속)", 5000], ["아바타 소환권 (귀속)", 50], ["서번트 소환권 (귀속)", 50]], "35레벨 달성 하이퍼 패키지": [["상급 에스텔라의 별빛 주문서 (귀속)", 10], ["미스터리 큐브(귀속)", 1000], ["아바타 소환권 (귀속)", 10], ["서번트 소환권 (귀속)", 10]], "망자의 묘지 모래 시계 - 1시간": [["망자의 묘지 모래 시계(귀속) - 1시간", 1]], "아스몬의 저주": [["아스몬의 저주 (귀속)", 1]], "천상의 투지 주문서": [["천상의 투지 주문서 (귀속)", 1]], "천상의 회복 주문서": [["천상의 회복 주문서 (귀속)", 1]], "98레벨 달성 하이퍼 패키지": [["상급 에스텔라의 별빛 주문서 (귀속)", 96], ["미스터리 큐브(귀속)", 9600], ["아바타 소환권 (귀속)", 96], ["서번트 소환권 (귀속)", 96]], "에오스의 고대 도안": [["에오스의 고대 도안", 1]], "마법인형 소환 (10회)": [["🎲 마법인형 소환 — 확률 지급", 0]], "고대 성검 룰렛 이벤트 패스": [["아이템 0", 1]], "94레벨 달성 하이퍼 패키지": [["상급 에스텔라의 별빛 주문서 (귀속)", 88], ["미스터리 큐브(귀속)", 8800], ["아바타 소환권 (귀속)", 88], ["서번트 소환권 (귀속)", 88]], "118레벨 달성 하이퍼 패키지": [["상급 에스텔라의 별빛 주문서 (귀속)", 136], ["미스터리 큐브(귀속)", 13600], ["아바타 소환권 (귀속)", 136], ["서번트 소환권 (귀속)", 136]], "변신 소환 티켓": [["아바타 소환권 (귀속)", 1]], "변신 소환 (100회)": [["🎲 변신 소환 — 확률 지급", 0]], "캐릭터명 변경권": [["캐릭터명 변경권 (귀속)", 1]], "천상의 전투 주문서": [["천상의 전투 주문서 (귀속)", 1]], "115레벨 달성 하이퍼 패키지": [["상급 에스텔라의 별빛 주문서 (귀속)", 130], ["미스터리 큐브(귀속)", 13000], ["아바타 소환권 (귀속)", 130], ["서번트 소환권 (귀속)", 130]], "에오스의 일반~전설 마법인형 픽업 소환권": [["🎲 에오스의 일반~전설 마법인형 픽업 소환권(귀속)", 1]], "100레벨 달성 하이퍼 패키지": [["상급 에스텔라의 별빛 주문서 (귀속)", 100], ["미스터리 큐브(귀속)", 10000], ["아바타 소환권 (귀속)", 100], ["서번트 소환권 (귀속)", 100]], "문장 파편 500,000개": [["일반 문장 파편 (귀속)", 500000]], "모르모트 안식처 이용권": [["모르모트의 길 이용권(귀속)", 1]], "변신 소환 (1회)": [["🎲 변신 소환 — 확률 지급", 0]], "마법인형 소환 (1회)": [["🎲 마법인형 소환 — 확률 지급", 0]], "[전설] 불완전한 넥타르 10개": [["불완전한 넥타르 (귀속)", 10]], "20레벨 달성 하이퍼 패키지": [["상급 에스텔라의 별빛 주문서 (귀속)", 4], ["미스터리 큐브(귀속)", 400], ["아바타 소환권 (귀속)", 4], ["서번트 소환권 (귀속)", 4]], "82레벨 달성 하이퍼 패키지": [["상급 에스텔라의 별빛 주문서 (귀속)", 64], ["미스터리 큐브(귀속)", 6400], ["아바타 소환권 (귀속)", 64], ["서번트 소환권 (귀속)", 64]], "초보자의 마법 지팡이(귀속)": [["아이템 1272100000", 1]], "성서 에오스 10개": [["성서 에오스", 10]], "천상의 용기 주문서": [["천상의 용기 주문서 (귀속)", 1]], "결투장 입장권": [["결투장 티켓 (귀속)", 1]], "97레벨 달성 하이퍼 패키지": [["상급 에스텔라의 별빛 주문서 (귀속)", 94], ["미스터리 큐브(귀속)", 9400], ["아바타 소환권 (귀속)", 94], ["서번트 소환권 (귀속)", 94]], "106레벨 달성 하이퍼 패키지": [["상급 에스텔라의 별빛 주문서 (귀속)", 112], ["미스터리 큐브(귀속)", 11200], ["아바타 소환권 (귀속)", 112], ["서번트 소환권 (귀속)", 112]], "40레벨 달성 하이퍼 패키지": [["상급 에스텔라의 별빛 주문서 (귀속)", 12], ["미스터리 큐브(귀속)", 1200], ["아바타 소환권 (귀속)", 12], ["서번트 소환권 (귀속)", 12]], "45레벨 달성 하이퍼 패키지": [["상급 에스텔라의 별빛 주문서 (귀속)", 14], ["미스터리 큐브(귀속)", 1400], ["아바타 소환권 (귀속)", 14], ["서번트 소환권 (귀속)", 14]], "[고급] 미궁의 문장 상자 500개": [["🎲 [고급] 미궁의 문장 상자", 500]], "신화 도전 룰렛 이벤트 패스": [["아이템 0", 1]], "천상의 축복 주문서": [["천상의 축복 주문서 (귀속)", 1]], "93레벨 달성 하이퍼 패키지": [["상급 에스텔라의 별빛 주문서 (귀속)", 86], ["미스터리 큐브(귀속)", 8600], ["아바타 소환권 (귀속)", 86], ["서번트 소환권 (귀속)", 86]], "변신 소환 (10회)": [["🎲 변신 소환 — 확률 지급", 0]], "바람 정령탑 이용권": [["바람 정령탑 이용권(귀속)", 1]], "[고급] 미궁의 유물 상자 250개": [["🎲 [고급]미궁의 유물 상자 (귀속)", 250]], "대지 정령탑 이용권": [["대지 정령탑 이용권(귀속)", 1]], "결투장 입장권_1": [["결투장 티켓 (귀속)", 1]], "61레벨 달성 하이퍼 패키지": [["상급 에스텔라의 별빛 주문서 (귀속)", 22], ["미스터리 큐브(귀속)", 2200], ["아바타 소환권 (귀속)", 22], ["서번트 소환권 (귀속)", 22]], "천상의 저항 주문서": [["천상의 저항 주문서 (귀속)", 1]], "110레벨 달성 하이퍼 패키지": [["상급 에스텔라의 별빛 주문서 (귀속)", 120], ["미스터리 큐브(귀속)", 12000], ["아바타 소환권 (귀속)", 120], ["서번트 소환권 (귀속)", 120]], "25레벨 달성 하이퍼 패키지": [["상급 에스텔라의 별빛 주문서 (귀속)", 6], ["미스터리 큐브(귀속)", 600], ["아바타 소환권 (귀속)", 6], ["서번트 소환권 (귀속)", 6]], "초보자의 장검(귀속)": [["아이템 1212100000", 1]], "72레벨 달성 하이퍼 패키지": [["상급 에스텔라의 별빛 주문서 (귀속)", 44], ["미스터리 큐브(귀속)", 4400], ["아바타 소환권 (귀속)", 44], ["서번트 소환권 (귀속)", 44]], "루멘탑 모래 시계 - 1시간": [["루멘탑 모래 시계(귀속) - 1시간", 1]], "변신 소환 (30회)": [["🎲 변신 소환 — 확률 지급", 0]], "60레벨 달성 하이퍼 패키지": [["상급 에스텔라의 별빛 주문서 (귀속)", 20], ["미스터리 큐브(귀속)", 2000], ["아바타 소환권 (귀속)", 20], ["서번트 소환권 (귀속)", 20]], "디오네의 일반~전설 변신 픽업 소환권": [["🎲 디오네의 일반~전설 변신 픽업 소환권 (귀속)", 1]], "체력 회복제 (귀속)": [["체력 회복제 (귀속)", 1]], "[고급] 미궁의 유물 상자 500개": [["🎲 [고급]미궁의 유물 상자 (귀속)", 500]], "에오스의 수집 상자": [["🎲 에오스의 수집 상자 (귀속)", 1]], "113레벨 달성 하이퍼 패키지": [["상급 에스텔라의 별빛 주문서 (귀속)", 126], ["미스터리 큐브(귀속)", 12600], ["아바타 소환권 (귀속)", 126], ["서번트 소환권 (귀속)", 126]], "96레벨 달성 하이퍼 패키지": [["상급 에스텔라의 별빛 주문서 (귀속)", 92], ["미스터리 큐브(귀속)", 9200], ["아바타 소환권 (귀속)", 92], ["서번트 소환권 (귀속)", 92]], "루멘탑 순간 이동 주문서 (귀속)": [["루멘탑 1층 순간 이동 주문서 (귀속)", 1]], "파이썬의 요람 이용권": [["파이썬의 영역 이용권(귀속)", 1]], "니알라의 비밀금고 모래 시계 - 1시간": [["니알라의 비밀금고 모래 시계(귀속) - 1시간", 1]], "117레벨 달성 하이퍼 패키지": [["상급 에스텔라의 별빛 주문서 (귀속)", 134], ["미스터리 큐브(귀속)", 13400], ["아바타 소환권 (귀속)", 134], ["서번트 소환권 (귀속)", 134]], "30레벨 달성 하이퍼 패키지": [["상급 에스텔라의 별빛 주문서 (귀속)", 8], ["미스터리 큐브(귀속)", 800], ["아바타 소환권 (귀속)", 8], ["서번트 소환권 (귀속)", 8]], "초보자의 신성 지팡이(귀속)": [["아이템 1292100000", 1]], "[일반] 유물 강화석 500개": [["일반 유물 강화석 (귀속)", 500]]}}, "summary": {"cash": {"tab": "386건 · 0.16억원 · 45종", "line": "2026-08-08 ~ 2026-08-08 합계 386건 · 0.16억원 · 상품 45종"}, "dia": {"tab": "20,988개 · 0.04억 다이아 · 33종", "line": "2026-08-08 ~ 2026-08-08 합계 20,988개 · 4,140,714 다이아(0.04억) · 상품 33종"}, "florin": {"tab": "0.0억개 · 3.5조 플로린 · 98종", "line": "2026-08-08 ~ 2026-08-08 합계 4,483,325개 · 3,454,961,997,800 플로린(3.45조) · 상품 98종"}}};
+
+// ---------- 헤더 문구 채우기 ----------
+(function fillHeader(){
+  const p = PAYLOAD;
+  document.getElementById('kicker').textContent =
+    `DKR · Product Sales — ${p.start_dt} ~ ${p.end_dt}`;
+  document.getElementById('title').textContent =
+    `${p.start_dt} ~ ${p.end_dt} 상품 판매 — 현금 · 다이아 · 플로린 (구성품 포함)`;
+  document.getElementById('periodmeta').innerHTML =
+    `기간 dt ${p.start_dt}~${p.end_dt} · <strong style="color:#fff">현금</strong> = t_hive_purchase_log(appidgroup='DKR', env≠'TEST' + 테스트 계정 제외, price_krw) · ` +
+    `<strong style="color:#fff">다이아/플로린</strong> = lt86_req_shop_buy 인게임 상점 구매(지불 재화 기준 분리, 전 유저) · ` +
+    `구성품 = SVN Shop 마스터(ProductList→상자 재귀 펼침, 🎲=확률 지급) — <strong style="color:#fff">호버 = 구성품 · 범례/순위 클릭 = 해당 라인 확대</strong> · 사내 기밀`;
+  document.getElementById('genstamp').textContent =
+    `${p.generated_at} · t_hive_purchase_log + lt86_req_shop_buy + SVN Shop 마스터 · 사업 1팀`;
+
+  // 오래된 데이터 경고 배지 (build_report 실패 시 옛 HTML이 계속 서빙되는 상황 감지)
+  // 기준: generated_at이 브라우저 현재 시각 기준 30시간 이전이면 붉은 배지
+  try {
+    const genMs = new Date(p.generated_at).getTime();
+    const hoursOld = (Date.now() - genMs) / 3600000;
+    if (hoursOld >= 30) {
+      const banner = document.createElement('div');
+      banner.style.cssText = 'background:#c0392b;color:#fff;padding:10px 18px;font-size:14px;font-weight:700;border-radius:8px;margin-top:12px;';
+      banner.textContent = `⚠️ 데이터가 오래됨: 마지막 갱신 ${p.generated_at} (${Math.round(hoursOld)}시간 전). 매일 09:00 자동 갱신이 실패했을 수 있음 — 관모님에게 문의`;
+      document.querySelector('header').appendChild(banner);
+    }
+  } catch (e) { /* generated_at 파싱 실패 시 배너 스킵 */ }
+})();
+
+const DATA = { cash: PAYLOAD.cash, dia: PAYLOAD.dia, florin: PAYLOAD.florin };
+const SUMMARY = PAYLOAD.summary;
+
+const CURRENCIES = [
+  { key:'cash',   label:'현금',   qtyWord:'건',
+    sub:'t_hive_purchase_log · price_krw · 환불 미차감 · 테스트 결제/계정 제외',
+    note:'판매량 = 결제 건수',
+    fmtAmt: v => v >= 1e8 ? (v/1e8).toFixed(2).replace(/\.?0+$/,'') + '억원' : (v >= 1e4 ? Math.round(v/1e4).toLocaleString() + '만원' : v.toLocaleString() + '원'),
+    axisAmt: v => v >= 1e8 ? (v/1e8).toFixed(1) + '억' : Math.round(v/1e4).toLocaleString() + '만' },
+  { key:'dia',    label:'다이아', qtyWord:'개',
+    sub:'lt86_req_shop_buy · 지불 재화 = 다이아(CLASSIC 서버군 전용) · 전 유저',
+    note:'판매량 = 구매 수량(묶음 합산) · 금액 = 다이아 지출량',
+    fmtAmt: v => fmtBig(v) + ' 다이아',
+    axisAmt: v => fmtBig(v) },
+  { key:'florin', label:'플로린', qtyWord:'개',
+    sub:'lt86_req_shop_buy · 지불 재화 = 플로린(전 서버군 공용) · 전 유저',
+    note:'판매량 = 구매 수량(묶음 합산) · 금액 = 플로린 지출량',
+    fmtAmt: v => fmtBig(v) + ' 플로린',
+    axisAmt: v => fmtBig(v) }
+];
+
+function fmtBig(v){
+  if (v >= 1e12) return (v/1e12).toFixed(2).replace(/\.?0+$/,'') + '조';
+  if (v >= 1e8)  return (v/1e8).toFixed(2).replace(/\.?0+$/,'') + '억';
+  if (v >= 1e4)  return Math.round(v/1e4).toLocaleString() + '만';
+  return v.toLocaleString();
+}
+
+const PALETTE = ['#F0C02D','#6db3e8','#7ed491','#ff7a5c','#c792ea','#4dd0c4','#f78fb3','#a3d977',
+                 '#ffb74d','#90a4f4','#e57373','#80cbc4'];
+const ETC = '#5a5a78';
+
+// ---------- 통화별 집계 ----------
+const AGG = {};
+for (const cur of CURRENCIES) {
+  const d = DATA[cur.key];
+  const days = [...new Set(d.daily.map(r => r[0]))].sort();
+  const pkgs = {};
+  for (const [dd, p, q, a] of d.daily) {
+    if (!pkgs[p]) pkgs[p] = { qty: 0, amt: 0, daily: {} };
+    pkgs[p].qty += q; pkgs[p].amt += a;
+    pkgs[p].daily[dd] = [ (pkgs[p].daily[dd]?.[0] || 0) + q, (pkgs[p].daily[dd]?.[1] || 0) + a ];
+  }
+  AGG[cur.key] = { days, pkgs, names: Object.keys(pkgs), items: d.items };
+}
+
+// ---------- 툴팁 ----------
+const tt = document.getElementById('tooltip');
+function showTip(ev, curKey, title, sub, pkgName){
+  let html = '<div class="tt-title">' + title + '</div><div class="tt-sub">' + sub + '</div>';
+  const items = AGG[curKey].items[pkgName];
+  if (items && items.length) {
+    const list = items.slice(0, 14).map(it => '<div class="it"><b>' + it[0] + '</b>' + (it[1] > 0 ? ' × ' + it[1].toLocaleString() : '') + '</div>').join('');
+    const more = items.length > 14 ? '<div class="it" style="color:#8A8AA8">… 외 ' + (items.length - 14) + '종</div>' : '';
+    html += '<div class="tt-items"><div class="lab">구성품 (' + items.length + '종)</div>' + list + more + '</div>';
+  } else if (pkgName) {
+    html += '<div class="tt-items"><div class="lab">구성품</div><div class="it" style="color:#8A8AA8">복수 상품 합산(기타) — 개별 행에서 확인</div></div>';
+  }
+  tt.innerHTML = html;
+  tt.style.display = 'block';
+  moveTip(ev);
+}
+function moveTip(ev){
+  const pad = 14;
+  let x = ev.clientX + pad, y = ev.clientY + pad;
+  const r = tt.getBoundingClientRect();
+  if (x + r.width > window.innerWidth - 8) x = ev.clientX - r.width - pad;
+  if (y + r.height > window.innerHeight - 8) y = ev.clientY - r.height - pad;
+  tt.style.left = x + 'px'; tt.style.top = y + 'px';
+}
+function hideTip(){ tt.style.display = 'none'; }
+
+// ---------- 페이지 골격 생성 ----------
+const pagesEl = document.getElementById('pages');
+for (const cur of CURRENCIES) {
+  for (const metric of ['qty','amt']) {
+    const id = cur.key + '-' + metric;
+    const metricWord = metric === 'qty' ? '판매량' : '판매 금액';
+    const page = document.createElement('div');
+    page.className = 'tabpage';
+    page.id = 'page-' + id;
+    page.innerHTML =
+      '<h2>일자별 ' + metricWord + ' 추이 <small>꺾은선 = ' + metricWord + ' TOP 12 상품 + 기타(점선) · 범례/순위 클릭 시 해당 라인 기준으로 축 확대</small></h2>'
+      + '<div class="chartbox"><div id="chart-' + id + '"></div><div class="scalenote" id="note-' + id + '"></div><div class="legend" id="legend-' + id + '"></div></div>'
+      + '<h2>상품별 총 ' + metricWord + ' 순위 <small>전체 ' + AGG[cur.key].names.length + '종 · 호버 = 구성품 · 클릭 = 차트 하이라이트</small></h2>'
+      + '<div class="ranklist" id="rank-' + id + '"></div>';
+    pagesEl.appendChild(page);
+  }
+}
+
+// ---------- 꺾은선 차트 ----------
+const SERIES = {};
+
+function buildChart(curKey, metric){
+  const cur = CURRENCIES.find(c => c.key === curKey);
+  const { days, pkgs, names } = AGG[curKey];
+  const id = curKey + '-' + metric;
+  const mount = 'chart-' + id, legendMount = 'legend-' + id, noteMount = 'note-' + id;
+  const idx = metric === 'qty' ? 0 : 1;
+  const fmt = metric === 'qty' ? (v => v.toLocaleString() + cur.qtyWord) : cur.fmtAmt;
+  const top = names.slice().sort((a,b) => pkgs[b][metric] - pkgs[a][metric]).slice(0, 12);
+  const topSet = new Set(top);
+  const lines = top.map((p, i) => ({ key: p, name: p, pkg: p, color: PALETTE[i], etc: false,
+                                     vals: days.map(d => pkgs[p].daily[d]?.[idx] || 0) }));
+  const etcVals = days.map(d => {
+    let s = 0;
+    for (const p of names) { if (!topSet.has(p)) s += pkgs[p].daily[d]?.[idx] || 0; }
+    return s;
+  });
+  lines.push({ key: '__etc__', name: '기타 (' + (names.length - top.length) + '종 합산)', pkg: null,
+               color: ETC, etc: true, vals: etcVals });
+
+  const reg = { lines, legend: new Map(), selected: null, render: null };
+  SERIES[mount] = reg;
+
+  function render(){
+    const mountEl = document.getElementById(mount);
+    mountEl.innerHTML = '';
+    const sel = reg.selected;
+    const base = sel ? lines.find(l => l.key === sel).vals : null;
+    const maxV = (sel ? Math.max(...base, 1) : Math.max(...lines.map(l => Math.max(...l.vals)))) * 1.1;
+    const W = 1180, H = 400, ML = 74, MB = 34, MT = 12, MR = 14;
+    const xAt = di => ML + (W - ML - MR) * (days.length === 1 ? 0.5 : di / (days.length - 1));
+    const yAt = v => H - MB - (H - MB - MT) * v / maxV;
+    const ns = 'http://www.w3.org/2000/svg';
+    const svg = document.createElementNS(ns, 'svg');
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    svg.setAttribute('width', '100%');
+    for (let g = 0; g <= 4; g++) {
+      const yv = maxV * g / 4;
+      const y = yAt(yv);
+      const line = document.createElementNS(ns, 'line');
+      line.setAttribute('x1', ML); line.setAttribute('x2', W - MR);
+      line.setAttribute('y1', y); line.setAttribute('y2', y);
+      line.setAttribute('stroke', '#2E2E50'); line.setAttribute('stroke-width', '1');
+      svg.appendChild(line);
+      const t = document.createElementNS(ns, 'text');
+      t.textContent = metric === 'qty' ? fmtBig(Math.round(yv)) : cur.axisAmt(yv);
+      t.setAttribute('x', ML - 8); t.setAttribute('y', y + 4);
+      t.setAttribute('text-anchor', 'end'); t.setAttribute('font-size', '10.5'); t.setAttribute('fill', '#8A8AA8');
+      svg.appendChild(t);
+    }
+    // X축: 데이터가 많으면 라벨 간격 자동 조절
+    const stride = Math.max(1, Math.ceil(days.length / 30));
+    days.forEach((d, di) => {
+      if (di % stride !== 0 && di !== days.length - 1) return;
+      const label = d.slice(5).replace('-', '/');
+      const t = document.createElementNS(ns, 'text');
+      t.textContent = label;
+      t.setAttribute('x', xAt(di)); t.setAttribute('y', H - MB + 16);
+      t.setAttribute('text-anchor', 'middle'); t.setAttribute('font-size', '10'); t.setAttribute('fill', '#8A8AA8');
+      svg.appendChild(t);
+    });
+    const defs = document.createElementNS(ns, 'defs');
+    defs.innerHTML = '<clipPath id="clip-' + mount + '"><rect x="0" y="0" width="' + W + '" height="' + (H - MB + 2) + '"/></clipPath>';
+    svg.appendChild(defs);
+    const ordered = sel ? [...lines.filter(l => l.key !== sel), lines.find(l => l.key === sel)] : lines;
+    ordered.forEach(ln => {
+      const g = document.createElementNS(ns, 'g');
+      g.setAttribute('class', 'series' + (sel && ln.key !== sel ? ' dim' : ''));
+      g.setAttribute('clip-path', 'url(#clip-' + mount + ')');
+      const pts = ln.vals.map((v, di) => xAt(di).toFixed(1) + ',' + yAt(v).toFixed(1)).join(' ');
+      const pl = document.createElementNS(ns, 'polyline');
+      pl.setAttribute('points', pts);
+      pl.setAttribute('fill', 'none');
+      pl.setAttribute('stroke', ln.color);
+      pl.setAttribute('stroke-width', ln.etc ? 1.6 : (sel === ln.key ? 2.8 : 2.2));
+      if (ln.etc) pl.setAttribute('stroke-dasharray', '5 4');
+      pl.setAttribute('stroke-linejoin', 'round');
+      pl.setAttribute('opacity', '0.92');
+      g.appendChild(pl);
+      // 점: 데이터가 많으면(>60일) 점 생략, 호버는 range로 대체
+      const drawDots = days.length <= 60;
+      if (drawDots) {
+        ln.vals.forEach((v, di) => {
+          const c = document.createElementNS(ns, 'circle');
+          c.setAttribute('cx', xAt(di)); c.setAttribute('cy', yAt(v));
+          c.setAttribute('r', sel === ln.key ? 4 : 3.4);
+          c.setAttribute('fill', ln.color);
+          c.setAttribute('stroke', '#1A1A2E'); c.setAttribute('stroke-width', '1');
+          c.addEventListener('mouseenter', ev => {
+            c.setAttribute('r', 5.8);
+            showTip(ev, curKey, ln.name, days[di].slice(5).replace('-','/') + ' · ' + fmt(v), ln.pkg);
+          });
+          c.addEventListener('mousemove', moveTip);
+          c.addEventListener('mouseleave', () => { c.setAttribute('r', sel === ln.key ? 4 : 3.4); hideTip(); });
+          g.appendChild(c);
+        });
+      }
+      svg.appendChild(g);
+    });
+    mountEl.appendChild(svg);
+    const note = document.getElementById(noteMount);
+    if (sel) {
+      const l = lines.find(x => x.key === sel);
+      note.textContent = '⤢ 축 확대: 「' + l.name + '」 기준 (최대 ' + fmt(Math.max(...l.vals)) + ') — 다시 클릭하면 전체 스케일로 복귀';
+      note.classList.add('show');
+    } else {
+      note.classList.remove('show');
+    }
+  }
+  reg.render = render;
+  render();
+
+  const lg = document.getElementById(legendMount);
+  lines.forEach(ln => {
+    const s = document.createElement('span');
+    s.innerHTML = '<i style="background:' + ln.color + '"></i>' + (ln.etc ? '기타 ' + (names.length - top.length) + '종' : ln.name);
+    if (!ln.etc) {
+      s.addEventListener('mouseenter', ev => showTip(ev, curKey, ln.name, '합계 ' + fmt(pkgs[ln.name][metric]) + ' · 클릭하면 이 라인 기준으로 확대', ln.pkg));
+      s.addEventListener('mousemove', moveTip);
+      s.addEventListener('mouseleave', hideTip);
+    }
+    s.addEventListener('click', () => toggleSelect(mount, ln.key));
+    reg.legend.set(ln.key, s);
+    lg.appendChild(s);
+  });
+}
+
+function toggleSelect(mount, key){
+  const reg = SERIES[mount];
+  if (!reg || !reg.lines.some(l => l.key === key)) return;
+  reg.selected = (reg.selected === key) ? null : key;
+  reg.render();
+  for (const [k, el] of reg.legend) {
+    el.classList.toggle('sel', reg.selected === k);
+    el.classList.toggle('dim', reg.selected !== null && k !== reg.selected);
+  }
+  const rankId = mount.replace('chart-', 'rank-');
+  document.querySelectorAll('#' + rankId + ' .rankrow').forEach(r => {
+    r.classList.toggle('sel', reg.selected !== null && r.dataset.pkg === reg.selected);
+  });
+}
+
+// ---------- 순위 리스트 ----------
+function buildRank(curKey, metric){
+  const cur = CURRENCIES.find(c => c.key === curKey);
+  const { pkgs, names } = AGG[curKey];
+  const id = curKey + '-' + metric;
+  const fmt = metric === 'qty' ? (v => v.toLocaleString() + cur.qtyWord) : cur.fmtAmt;
+  const sorted = names.slice().sort((a,b) => pkgs[b][metric] - pkgs[a][metric]);
+  const max = pkgs[sorted[0]]?.[metric] || 1;
+  const box = document.getElementById('rank-' + id);
+  const chartId = 'chart-' + id;
+  sorted.forEach((p, i) => {
+    const v = pkgs[p][metric];
+    const row = document.createElement('div');
+    row.className = 'rankrow';
+    row.dataset.pkg = p;
+    row.innerHTML = '<div class="rk">' + (i+1) + '</div><div class="nm">' + p + '</div>'
+      + '<div class="barwrap"><div class="bar" style="width:' + Math.max(v / max * 100, 0.4) + '%"></div></div>'
+      + '<div class="val">' + fmt(v) + '</div>';
+    row.addEventListener('mouseenter', ev => showTip(ev, curKey, p,
+      '판매 ' + pkgs[p].qty.toLocaleString() + cur.qtyWord + ' · 금액 ' + cur.fmtAmt(pkgs[p].amt)
+      + (SERIES[chartId] && SERIES[chartId].lines.some(l => l.key === p) ? ' · 클릭하면 차트 확대 표시' : ''), p));
+    row.addEventListener('mousemove', moveTip);
+    row.addEventListener('mouseleave', hideTip);
+    row.addEventListener('click', () => toggleSelect(chartId, p));
+    box.appendChild(row);
+  });
+}
+
+for (const cur of CURRENCIES) {
+  buildChart(cur.key, 'qty');
+  buildChart(cur.key, 'amt');
+  buildRank(cur.key, 'qty');
+  buildRank(cur.key, 'amt');
+}
+
+// ---------- 탭 전환 ----------
+const state = { cur: 'cash', metric: 'qty' };
+
+const curtabsEl = document.getElementById('curtabs');
+for (const cur of CURRENCIES) {
+  const b = document.createElement('button');
+  b.className = 'cur-btn' + (cur.key === state.cur ? ' active' : '');
+  b.dataset.cur = cur.key;
+  b.innerHTML = cur.label + '<span class="cur-sum">' + SUMMARY[cur.key].tab + '</span>';
+  b.addEventListener('click', () => { state.cur = cur.key; sync(); });
+  curtabsEl.appendChild(b);
+}
+document.querySelectorAll('#subtabs .tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => { state.metric = btn.dataset.metric; sync(); });
+});
+
+function sync(){
+  document.querySelectorAll('.cur-btn').forEach(b => b.classList.toggle('active', b.dataset.cur === state.cur));
+  document.querySelectorAll('#subtabs .tab-btn').forEach(b => b.classList.toggle('active', b.dataset.metric === state.metric));
+  document.querySelectorAll('.tabpage').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + state.cur + '-' + state.metric).classList.add('active');
+  const cur = CURRENCIES.find(c => c.key === state.cur);
+  document.getElementById('curmeta').innerHTML = '<strong>' + SUMMARY[state.cur].line + '</strong> · ' + cur.sub + ' · ' + cur.note;
+  window.scrollTo(0, 0);
+}
+sync();
+</script>
+</body>
+</html>
