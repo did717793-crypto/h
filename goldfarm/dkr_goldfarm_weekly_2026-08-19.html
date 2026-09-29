@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DKR 골드팜 주간 리포트 · 2026-08-19</title>
+<meta property="og:title" content="DKR 골드팜 주간 리포트 · 2026-08-19">
+<meta property="og:description" content="최종 제재 58명 · 다이아 1 · 하이퍼 1 · 글로벌 39 · 미상 17">
+<meta property="og:type" content="article">
+<style>
+  body {
+    margin: 0; padding: 20px;
+    font-family: -apple-system, "Segoe UI", "Noto Sans KR", sans-serif;
+    background: #f5f5f4; color: #1f2937;
+  }
+  .container { max-width: 720px; margin: 0 auto; background: #fff; border-radius: 12px; padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+  h1 { font-size: 18px; margin: 0 0 4px; color: #1f2937; }
+  .subtitle { font-size: 13px; color: #6b7280; margin-bottom: 20px; }
+  .kpi-hero { background: linear-gradient(135deg, #fef2f2, #fef3c7); border: 1px solid #fecaca; border-radius: 8px; padding: 16px; margin-bottom: 20px; }
+  .kpi-hero .num { font-size: 32px; font-weight: 800; color: #dc2626; }
+  .kpi-hero .num-suffix { font-size: 16px; font-weight: 500; }
+  .kpi-hero .label { font-size: 13px; color: #78716c; }
+  .kpi-hero .breakdown { display: flex; gap: 16px; margin-top: 8px; font-size: 13px; color: #57534e; flex-wrap: wrap; }
+  .kpi-hero .breakdown span { display: inline-flex; align-items: center; gap: 5px; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .dot-c { background: #6366f1; } .dot-h { background: #f59e0b; } .dot-g { background: #10b981; } .dot-u { background: #9ca3af; }
+  h2 { font-size: 13px; font-weight: 700; color: #374151; margin: 20px 0 8px; padding: 6px 10px; background: #f3f4f6; border-radius: 4px; display: inline-block; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 4px; }
+  th { background: #f9fafb; color: #6b7280; font-weight: 600; padding: 10px 12px; text-align: left; border-bottom: 1px solid #e5e7eb; font-size: 12px; }
+  th.num, td.num { text-align: right; }
+  td { padding: 10px 12px; border-bottom: 1px solid #f3f4f6; color: #1f2937; }
+  tr:last-child td { border-bottom: none; }
+  .row-total { background: #f9fafb; font-weight: 600; }
+  .rate-good { color: #059669; font-weight: 600; }
+  .rate-bad { color: #dc2626; font-weight: 600; }
+  .rate-mid { color: #d97706; font-weight: 600; }
+  .callout { background: #fffbeb; border-left: 3px solid #f59e0b; padding: 10px 14px; margin: 16px 0; font-size: 13px; color: #78350f; border-radius: 4px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>📊 DKR 골드팜 주간 리포트</h1>
+  <div class="subtitle">조회 기간 2026-08-06 ~ 2026-08-13 · 실행 2026-08-19 (수)</div>
+
+  <div class="kpi-hero">
+    <div class="label">최종 제재</div>
+    <div><span class="num">58</span><span class="num-suffix">명</span></div>
+    <div class="breakdown">
+      <span><span class="dot dot-c"></span>다이아 1</span>
+      <span><span class="dot dot-h"></span>하이퍼 1</span>
+      <span><span class="dot dot-g"></span>글로벌 39</span>
+      <span><span class="dot dot-u"></span>미상 17</span>
+    </div>
+  </div>
+
+  <h2>📊 서버별 요약</h2>
+  <table>
+    <thead><tr><th>서버</th><th class="num">1차 검출</th><th class="num">최종 제재</th><th class="num">통과율</th></tr></thead>
+    <tbody>
+      <tr><td>💎 다이아 (CLASSIC)</td><td class="num">86</td><td class="num">1</td><td class="num rate-good">1.2%</td></tr>
+      <tr><td>⚡ 하이퍼 (HYPER)</td><td class="num">49</td><td class="num">1</td><td class="num rate-good">2.0%</td></tr>
+      <tr><td>🌐 글로벌 (SEA)</td><td class="num">170</td><td class="num">39</td><td class="num rate-bad">22.9%</td></tr>
+      <tr><td>❓ UNKNOWN (미상)</td><td class="num">40</td><td class="num">17</td><td class="num rate-bad">42.5%</td></tr>
+      <tr class="row-total"><td>합계</td><td class="num">345</td><td class="num">58</td><td class="num rate-mid">16.8%</td></tr>
+    </tbody>
+  </table>
+
+  <h2>🎯 조건별 1차 검출</h2>
+  <table>
+    <thead><tr><th>조건</th><th>탐지 로직</th><th class="num">검출</th></tr></thead>
+    <tbody>
+      <tr><td>조건 1</td><td>퀘스트 동시완료</td><td class="num">0</td></tr>
+      <tr><td>조건 2</td><td>던전 소탕 진행</td><td class="num">134</td></tr>
+      <tr><td>조건 3</td><td>동일 DID 다중접속</td><td class="num">74</td></tr>
+      <tr><td>조건 4</td><td>기기농장</td><td class="num">22</td></tr>
+      <tr><td>조건 5</td><td>뱅커</td><td class="num">10</td></tr>
+      <tr><td>조건 6</td><td>파머</td><td class="num">96</td></tr>
+      <tr><td>조건 7</td><td>동일 UserIp 8+ 계정 공유</td><td class="num">182</td></tr>
+    </tbody>
+  </table>
+
+  <h2>🔄 2차 필터링 요약</h2>
+  <table>
+    <tbody>
+      <tr><td>1차 검출 (중복제거)</td><td class="num">345명</td></tr>
+      <tr><td>2차 필터링 통과 → 최종 제재</td><td class="num rate-bad">58명 (16.8%)</td></tr>
+      <tr><td>2차 필터링 제외</td><td class="num">287명 (83.2%)</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    ⚠️ UNKNOWN 17명 · db_account 스냅샷 07-22 이후 stale + 하이브 가입만·서버 미접속한 골드팜 특유 계정. 수동 매핑 처리 완료.
+  </div>
+</div>
+</body>
+</html>
