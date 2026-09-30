@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0b0f1a">
+<meta name="description" content="광주 문화전당역 반경 10km 방탈출 카페와 난이도 4 · 비공포 테마 큐레이션">
+<title>광주 문화전당역 방탈출 · 난이도 4 &amp; 저공포 테마 큐레이션</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{background:#0b0f1a;color:#eef1ff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Malgun Gothic",Roboto,Arial,sans-serif;line-height:1.6;min-height:100vh;-webkit-font-smoothing:antialiased}
+img{max-width:100%;height:auto;display:block}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1400px;margin:0 auto;padding:0 clamp(12px,4vw,24px)}
+header.top{background:linear-gradient(135deg,#1a2340 0%,#0b0f1a 100%);padding:clamp(32px,7vw,64px) clamp(16px,4vw,32px);border-bottom:1px solid #253055;text-align:center}
+header.top h1{font-size:clamp(22px,4.5vw,34px);letter-spacing:-.5px;line-height:1.25;margin-bottom:10px;font-weight:800}
+header.top .sub{color:#a9b3d1;font-size:clamp(13px,2.5vw,15px);margin-bottom:12px}
+header.top .meta{color:#7a8399;font-size:clamp(11px,2vw,13px)}
+.filter-tags{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:16px}
+.tag{display:inline-flex;align-items:center;background:rgba(255,181,71,.12);border:1px solid rgba(255,181,71,.5);color:#ffb547;font-size:12px;padding:4px 12px;border-radius:999px;font-weight:600}
+.notice{border-radius:10px;padding:14px 18px;margin:20px 0;font-size:clamp(12px,2.3vw,14px);line-height:1.75}
+.notice.warn{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.35);border-left:4px solid #fbbf24;color:#d5deee}
+.notice.warn strong{color:#fbbf24}
+.notice.info{background:rgba(111,141,255,.08);border:1px solid rgba(111,141,255,.35);border-left:4px solid #6f8dff;color:#d5deee}
+.notice.info strong{color:#6f8dff}
+.notice.key{background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.35);border-left:4px solid #34d399;color:#d5deee}
+.notice.key strong{color:#34d399}
+section{margin:clamp(32px,6vw,56px) 0}
+h2{font-size:clamp(20px,3.8vw,26px);margin-bottom:14px;padding-bottom:10px;border-bottom:2px solid #ffb547;display:inline-block;font-weight:800}
+h3{font-size:clamp(15px,2.8vw,18px);margin:26px 0 10px;color:#ffb547;font-weight:700}
+p.lead{color:#a9b3d1;font-size:clamp(13px,2.5vw,14px);margin-bottom:14px}
+.theme-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px;margin-top:16px}
+a.theme-card{display:flex;flex-direction:column;background:#131a2b;border:1px solid #253055;border-radius:12px;overflow:hidden;transition:transform .15s ease,border-color .15s ease,box-shadow .15s ease}
+a.theme-card:hover,a.theme-card:focus-visible{border-color:#ffb547;transform:translateY(-3px);box-shadow:0 10px 28px -12px rgba(255,181,71,.45);outline:none}
+.thumb{aspect-ratio:16/10;background:#0e1424;overflow:hidden;position:relative}
+.thumb img{width:100%;height:100%;object-fit:cover}
+.rank{position:absolute;top:10px;left:10px;background:rgba(11,15,26,.85);border:1px solid #ffb547;color:#ffb547;font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px}
+.tbody{padding:14px 16px 16px;display:flex;flex-direction:column;gap:8px;flex:1}
+.tname{font-size:17px;font-weight:800;letter-spacing:-.3px}
+.tstore{font-size:12px;color:#8f9ab8}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px}
+.chip{font-size:11px;padding:3px 8px;border-radius:6px;background:#1b2440;border:1px solid #2c3862;color:#c3cbe4}
+.chip.lv{background:rgba(255,181,71,.14);border-color:rgba(255,181,71,.45);color:#ffb547;font-weight:700}
+.chip.walk{background:rgba(52,211,153,.12);border-color:rgba(52,211,153,.4);color:#34d399;font-weight:700}
+.chip.rt{background:rgba(111,141,255,.12);border-color:rgba(111,141,255,.4);color:#93a8ff}
+.tintro{font-size:12.5px;color:#aab3cc;line-height:1.65;flex:1}
+.tcaution{font-size:11.5px;color:#fbbf24;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.3);border-radius:6px;padding:6px 9px;line-height:1.5}
+.tfoot{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:#7a8399;border-top:1px solid #212b48;padding-top:9px;margin-top:2px}
+.tprice{color:#eef1ff;font-weight:700}
+.cafe-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin-top:14px}
+.cafe-card{background:#131a2b;border:1px solid #253055;border-radius:10px;padding:16px 18px;display:flex;flex-direction:column;gap:6px}
+.cafe-card .brand{font-size:16px;font-weight:800}
+.cafe-card .addr{font-size:12px;color:#8f9ab8;line-height:1.55}
+.cafe-card .themes{font-size:12.5px;color:#c3cbe4;line-height:1.6}
+.cafe-links{display:flex;gap:8px;margin-top:6px}
+.cafe-links a{font-size:11.5px;padding:5px 10px;border-radius:6px;border:1px solid #2c3862;background:#1b2440;color:#c3cbe4;transition:border-color .15s,color .15s}
+.cafe-links a:hover{border-color:#ffb547;color:#ffb547}
+table{width:100%;border-collapse:collapse;font-size:13px;margin-top:12px}
+.tablewrap{overflow-x:auto;border:1px solid #253055;border-radius:10px}
+th,td{padding:9px 12px;text-align:left;border-bottom:1px solid #1e2740;white-space:nowrap}
+th{background:#161e33;color:#ffb547;font-weight:700;font-size:12px;position:sticky;top:0}
+tbody tr:hover{background:#141c2e}
+td.wrap-cell{white-space:normal;min-width:180px}
+.muted{color:#7a8399}
+footer{border-top:1px solid #253055;margin-top:56px;padding:28px 0 48px;color:#7a8399;font-size:12px;line-height:1.8}
+footer a{color:#93a8ff;text-decoration:underline}
+
+.chip.warnchip{background:rgba(251,191,36,.14);border-color:rgba(251,191,36,.45);color:#fbbf24;font-weight:700}
+.noimg{width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#4c5878;font-size:12px}
+.cafe-card .km{font-size:12px;color:#34d399;font-weight:700;margin-left:6px}
+.cafe-card .hit{font-size:12px;color:#ffb547;background:rgba(255,181,71,.08);border:1px solid rgba(255,181,71,.3);border-radius:6px;padding:5px 9px;line-height:1.5}
+table a{color:#93a8ff;text-decoration:underline}
+footer p{margin-bottom:8px}
+
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>광주 문화전당역 방탈출</h1>
+  <div class="sub">문화전당역 반경 <strong>10km</strong> 이내 · 난이도 정확히 4 · 공포 특화 제외</div>
+  <div class="meta">기준일 · 2026-10-16 &nbsp;|&nbsp; 데이터 출처 · 잼핏(zamfit) 공개 API / OpenStreetMap Nominatim</div>
+  <div class="filter-tags">
+    <span class="tag">난이도 = 4 (정확)</span>
+    <span class="tag">공포 특화 테마 제외</span>
+    <span class="tag">반경 10km (직선거리)</span>
+    <span class="tag">운영종료 제외</span>
+    <span class="tag">👆 카드 클릭 → 상세·예약</span>
+  </div>
+</header>
+
+<div class="wrap">
+
+<div class="notice key">
+  <strong>먼저 알아두실 점</strong> — 반경 10km라는 조건은 광주에서는 사실상 <strong>광주 시내 전역</strong>을 덮습니다.
+  그런데 실제로는 <strong>20곳 중 13곳이 문화전당역에서 600m 안(도보 10분 이내)</strong>인 충장로·중앙로 골목에 몰려 있습니다.
+  즉 역에서 나와 한 블록만 걸으면 조건 통과 테마 대부분을 걸어서 순회할 수 있고, 나머지는 북구·서구·광산구로 흩어져 차가 필요합니다.
+</div>
+
+<div class="notice info">
+  <strong>큐레이션 기준</strong><br>
+  ① 문화전당역(35.14602, 126.91899)에서 <strong>직선거리 10km 이내</strong> 매장만 포함 — 거리는 전부 좌표로 기계 계산했고 임의로 적어 넣은 값은 없습니다.<br>
+  ② <strong>잼핏 평균 난이도가 정확히 Level 4</strong>인 테마만 (Lv3 이하·Lv5 제외, 난이도 미집계 테마 제외)<br>
+  ③ <strong>공포 특화 테마 제외</strong> — 잼핏 장르가 「호러/공포」인 테마는 전부 제외했고, 장르는 비공포지만 소재가 강한 테마에는 &#9888; 주의 문구를 붙였습니다.<br>
+  ④ 잼핏에 <strong>운영종료(폐점)로 표시된 테마 제외</strong>.
+</div>
+
+<div class="notice warn">
+  <strong>표본 주의</strong> — 잼핏 난이도는 유저 투표 평균을 반올림한 값입니다. 광주는 수도권보다 리뷰 표본이 얕아,
+  리뷰가 5건 미만인 테마에는 <span class="chip warnchip">표본 적음</span> 칩을 달았습니다. 이 테마들의 "난이도 4"는 흔들릴 수 있으니 매장 공식 난이도도 함께 확인하시길 권합니다.
+</div>
+
+<section>
+  <h2>1. 최종 추천 테마 18개 (난이도 4 · 비공포 · 반경 10km)</h2>
+  <p class="lead">문화전당역에서 가까운 순서입니다. 거리는 매장 좌표와 역 좌표 사이 직선거리(haversine)입니다.</p>
+  <div class="theme-grid">
+<a class="theme-card" href="https://web.zamfit.kr/escapes/6105" target="_blank" rel="noopener">
+  <div class="thumb"><img src="https://cdn.zamfit.co.kr/EscapeRoom/resize/f1a31cc3-b6f7-4e87-914c-9137471e093c.png" alt="베타 테스터"><span class="rank">1위 근접</span></div>
+  <div class="tbody">
+    <div class="tname">베타 테스터</div>
+    <div class="tstore">에스케이프 · 광주 동구 서석로 34-3 4층</div>
+    <div class="chips"><span class="chip lv">난이도 4</span><span class="chip walk">0.13km</span><span class="chip">?</span><span class="chip">80분</span><span class="chip">인원 미등록</span><span class="chip">활동성 보통</span><span class="chip rt">매장 표기 &#x27;공포도 없음&#x27;</span></div>
+    <div class="tintro">취직하기 어려운 요즘 알바몽을 통해서 알바를 구하다가 나의 눈을 사로 잡는 공고가 눈에 띄었다! &#x27; 게임 테스터 구함 &#x27;    영구히 없어진 연출 때문에 1시간 20분으로 감소하였습니다. ( 조정중 )</div>
+    
+    <div class="tfoot"><span class="tprice">가격 미등록</span><span>★ 4.1 (리뷰 38)</span></div>
+  </div>
+</a>
+<a class="theme-card" href="https://web.zamfit.kr/escapes/6051" target="_blank" rel="noopener">
+  <div class="thumb"><img src="https://cdn.zamfit.co.kr/EscapeRoom/resize/b0145abf-68b4-4652-a550-40da0a259ac3.png" alt="레드"><span class="rank">2위 근접</span></div>
+  <div class="tbody">
+    <div class="tname">레드</div>
+    <div class="tstore">에스케이프 · 광주 동구 서석로 34-3 4층</div>
+    <div class="chips"><span class="chip lv">난이도 4</span><span class="chip walk">0.13km</span><span class="chip">스릴러</span><span class="chip">80분</span><span class="chip">인원 미등록</span><span class="chip">활동성 보통</span><span class="chip rt">매장 표기 &#x27;공포도 중&#x27;</span></div>
+    <div class="tintro">미해결 사건을 해결하는 RED 팀 생존자는 단 한명 피해자의 기억 속에서 단서를 찾아야한다.    ( 치마 입으신 분은 많이 불편하실 수 있습니다. )</div>
+    <div class="tcaution">&#9888; 매장 자체 안내에 &#x27;공포도 중&#x27;으로 표기돼 있습니다. 공포 특화는 아니나 완전 무공포는 아닙니다.</div>
+    <div class="tfoot"><span class="tprice">가격 미등록</span><span>★ 4.2 (리뷰 28)</span></div>
+  </div>
+</a>
+<a class="theme-card" href="https://web.zamfit.kr/escapes/6063" target="_blank" rel="noopener">
+  <div class="thumb"><img src="https://cdn.zamfit.co.kr/EscapeRoom/resize/c96ec042-045d-448c-abf9-5bdedc6926b5.png" alt="링크 시즌 2"><span class="rank">3위 근접</span></div>
+  <div class="tbody">
+    <div class="tname">링크 시즌 2</div>
+    <div class="tstore">에스케이프 · 광주 동구 서석로 34-3 4층</div>
+    <div class="chips"><span class="chip lv">난이도 4</span><span class="chip walk">0.13km</span><span class="chip">잠입</span><span class="chip">120분</span><span class="chip">인원 미등록</span><span class="chip">활동성 많음</span></div>
+    <div class="tintro">LINK 그 두번째 이야기 .....</div>
+    
+    <div class="tfoot"><span class="tprice">가격 미등록</span><span>★ 3.8 (리뷰 5)</span></div>
+  </div>
+</a>
+<a class="theme-card" href="https://web.zamfit.kr/escapes/6236" target="_blank" rel="noopener">
+  <div class="thumb"><img src="https://cdn.zamfit.co.kr/EscapeRoom/resize/4742b0e3-3315-4032-9eae-77d4ed5e2292.png" alt="전생연분"><span class="rank">4위 근접</span></div>
+  <div class="tbody">
+    <div class="tname">전생연분</div>
+    <div class="tstore">러시아워 방탈출 카페 · 광주 동구 충장로 100-1 4층</div>
+    <div class="chips"><span class="chip lv">난이도 4</span><span class="chip walk">0.17km</span><span class="chip">로맨스</span><span class="chip">75분</span><span class="chip">인원 미등록</span><span class="chip">활동성 많음</span></div>
+    <div class="tintro">아직도 모태솔로를 벗어나지 못하는 처량한 내 나이 서른. 하아..나도 이젠 제발 여자친구를 만들고싶다. 난 전생에 나라라도 팔아먹은건가? 그렇게 오늘도 쓸쓸히 퇴근한다..</div>
+    
+    <div class="tfoot"><span class="tprice">1인 25,000원 (매장 표기)</span><span>★ 4.1 (리뷰 31)</span></div>
+  </div>
+</a>
+<a class="theme-card" href="https://web.zamfit.kr/escapes/6174" target="_blank" rel="noopener">
+  <div class="thumb"><img src="https://cdn.zamfit.co.kr/EscapeRoom/resize/ff96d435-176c-4d71-b8d9-56c0e69bba9f.png" alt="시크릿 왕국의 스캔들"><span class="rank">5위 근접</span></div>
+  <div class="tbody">
+    <div class="tname">시크릿 왕국의 스캔들</div>
+    <div class="tstore">상상의문 광주점 · 광주광역시 동구 충장로 80-5</div>
+    <div class="chips"><span class="chip lv">난이도 4</span><span class="chip walk">0.36km</span><span class="chip">추리</span><span class="chip">80분</span><span class="chip">인원 미등록</span><span class="chip">활동성 보통</span></div>
+    <div class="tintro">시크릿 왕국의 프린스 왕자와 새 왕자비를 소개하는 연회를 개최합니다. 부디 참석하여 기쁜 날을 함께 맞이해 주시오.</div>
+    
+    <div class="tfoot"><span class="tprice">가격 미등록</span><span>★ 3.6 (리뷰 18)</span></div>
+  </div>
+</a>
+<a class="theme-card" href="https://web.zamfit.kr/escapes/6249" target="_blank" rel="noopener">
+  <div class="thumb"><img src="https://cdn.zamfit.co.kr/EscapeRoom/resize/2c77556b-4a72-4636-9644-3d01b8fa6a0f.png" alt="캐치캣"><span class="rank">6위 근접</span></div>
+  <div class="tbody">
+    <div class="tname">캐치캣</div>
+    <div class="tstore">상상의문 광주점 · 광주광역시 동구 충장로 80-5</div>
+    <div class="chips"><span class="chip lv">난이도 4</span><span class="chip walk">0.36km</span><span class="chip">액션</span><span class="chip">45분</span><span class="chip">인원 미등록</span><span class="chip">활동성 보통</span></div>
+    <div class="tintro">이 메시지를 받은 요원은 가까운 아지트로 즉시 응소바람 *해당 테마는 혼방이 불가능합니다</div>
+    
+    <div class="tfoot"><span class="tprice">가격 미등록</span><span>★ 3.6 (리뷰 16)</span></div>
+  </div>
+</a>
+<a class="theme-card" href="https://web.zamfit.kr/escapes/6014" target="_blank" rel="noopener">
+  <div class="thumb"><img src="https://cdn.zamfit.co.kr/EscapeRoom/resize/97b83b7b-69fa-42a9-8c27-557746c971c0.png" alt="당감동 정육점"><span class="rank">7위 근접</span></div>
+  <div class="tbody">
+    <div class="tname">당감동 정육점</div>
+    <div class="tstore">미션 브레이크 광주 CGV · 광주광역시 동구 중앙로160번길 16-7</div>
+    <div class="chips"><span class="chip lv">난이도 4</span><span class="chip walk">0.41km</span><span class="chip">스릴러</span><span class="chip">60분</span><span class="chip">인원 미등록</span><span class="chip">활동성 적음</span></div>
+    <div class="tintro">연쇄 살인 사건을 해결하고 오랜만에 얻은 꿀맛 같은 휴식 친구들과 휴양지에서 바비큐 파티를 위해 정육점에 들렀는데 빨간 조명 아래 정육점 주인으로 보이는 사람의 뒷모습이 보인다. “저기요 아저씨, 이거 한 근에 얼마죠?” 아무리 불러봐도 묵묵히 도마질만 하고 있다. 그리고 벽에 실종자 전단지… 저건 왜 붙어 있는거지?</div>
+    <div class="tcaution">&#9888; 연쇄살인·정육점 소재로 고어 톤이 섞입니다. 공포 장르는 아니지만 수위가 있는 편입니다.</div>
+    <div class="tfoot"><span class="tprice">가격 미등록</span><span>★ 2.8 (리뷰 6)</span></div>
+  </div>
+</a>
+<a class="theme-card" href="https://web.zamfit.kr/escapes/6247" target="_blank" rel="noopener">
+  <div class="thumb"><img src="https://cdn.zamfit.co.kr/EscapeRoom/resize/efff202a-db8e-4c87-b90e-d5b30f854b4d.png" alt="책 읽어주는 남자"><span class="rank">8위 근접</span></div>
+  <div class="tbody">
+    <div class="tname">책 읽어주는 남자</div>
+    <div class="tstore">미션 브레이크 광주 CGV · 광주광역시 동구 중앙로160번길 16-7</div>
+    <div class="chips"><span class="chip lv">난이도 4</span><span class="chip walk">0.41km</span><span class="chip">로맨스</span><span class="chip">60분</span><span class="chip">인원 미등록</span><span class="chip">활동성 적음</span><span class="chip warnchip">표본 적음</span></div>
+    <div class="tintro">왠지 아무것도 기억나지 않지만 햇살이 너무나도 따뜻한 어느 날, 창 밖을 바라보던 당신에게 낯선 이가 말을 걸어왔다. “안녕하세요?” “…?” 옆을 지나가던 한 간호사가 그 사람은 ‘이야기 들려주는 사람’이라고 소개시켜 주었고, 그는 당신에게 재미있는 이야기를 들려주겠다 했지만 당신은 정중히 거절했다. “후회하지 않으실 …</div>
+    
+    <div class="tfoot"><span class="tprice">가격 미등록</span><span>★ 3.2 (리뷰 2)</span></div>
+  </div>
+</a>
+<a class="theme-card" href="https://web.zamfit.kr/escapes/7151" target="_blank" rel="noopener">
+  <div class="thumb"><img src="https://cdn.zamfit.co.kr/escape-rooms/da95fc9e-6633-4d0f-ab0b-3220a7c6bc88.png" alt="DKDK"><span class="rank">9위 근접</span></div>
+  <div class="tbody">
+    <div class="tname">DKDK</div>
+    <div class="tstore">시간의문 광주점 · 광주 동구 중앙로160번길 15-3 3층</div>
+    <div class="chips"><span class="chip lv">난이도 4</span><span class="chip walk">0.42km</span><span class="chip">판타지</span><span class="chip">80분</span><span class="chip">2~6인</span><span class="chip">활동성 적음</span><span class="chip warnchip">표본 적음</span></div>
+    <div class="tintro">장르 : 판타지/코미디  시간 : 80분 권장 인원수 : 2~6명 오늘도 평화로운 DKDK COMPANY. 언제나 그렇듯 영업2팀 직원들은 출근해서 시간만 때우고 있다. 그런데 하필 오늘 영업2팀 실적문제로 쿵부장은 쾅대표에게 호되게 혼나고 화가 난 쿵부장은 심대리와 장사원에게 팀 실적을 위해 프로젝트 하나를 던져주는데 …</div>
+    
+    <div class="tfoot"><span class="tprice">잼핏 등록가 28,000원 (1인 기준)</span><span>평점 미형성 (리뷰 4)</span></div>
+  </div>
+</a>
+<a class="theme-card" href="https://web.zamfit.kr/escapes/7284" target="_blank" rel="noopener">
+  <div class="thumb"><img src="https://cdn.zamfit.co.kr/escape-rooms/7aca79c2-8d49-4000-adc7-ee6c3e088610.png" alt="이건 계획에 없었는디?"><span class="rank">10위 근접</span></div>
+  <div class="tbody">
+    <div class="tname">이건 계획에 없었는디?</div>
+    <div class="tstore">시간의문 광주점 · 광주 동구 중앙로160번길 15-3 3층</div>
+    <div class="chips"><span class="chip lv">난이도 4</span><span class="chip walk">0.42km</span><span class="chip">스릴러</span><span class="chip">80분</span><span class="chip">2~6인</span><span class="chip">활동성 보통</span><span class="chip warnchip">표본 적음</span></div>
+    <div class="tintro">뭔가 잘못됐다. 심부름 센터를 오픈한지도 어언 반년... 처음으로 &#x27;제대로 된 일&#x27;이 들어왔다고 생각했다. 전화 한 통, 간단한 의뢰, 유인과 잠입, 완벽한 흐름이었다. 그런데 이건... 애초에 우리가 계산했던 그림이 아ㅣ다. 이건... 진짜 계획에 없었는디...?</div>
+    
+    <div class="tfoot"><span class="tprice">잼핏 등록가 29,000원 (1인 기준)</span><span>평점 미형성 (리뷰 3)</span></div>
+  </div>
+</a>
+<a class="theme-card" href="https://web.zamfit.kr/escapes/7148" target="_blank" rel="noopener">
+  <div class="thumb"><img src="https://cdn.zamfit.co.kr/escape-rooms/f753fa1d-573f-4925-989a-8b64be2202ca.jpeg" alt="Chaser:한마음 폐공장"><span class="rank">11위 근접</span></div>
+  <div class="tbody">
+    <div class="tname">Chaser:한마음 폐공장</div>
+    <div class="tstore">시간의문 광주점 · 광주 동구 중앙로160번길 15-3 3층</div>
+    <div class="chips"><span class="chip lv">난이도 4</span><span class="chip walk">0.42km</span><span class="chip">스릴러</span><span class="chip">80분</span><span class="chip">2~6인</span><span class="chip">활동성 보통</span><span class="chip warnchip">표본 적음</span></div>
+    <div class="tintro">장르 : 수사/스릴러  시간 : 80분 권장 인원수 : 2~6명 형사가 찾아왔다. 그들은 내게 &#x27;한마음 폐공장&#x27;과 관련된 미제 사건을 수사할 수 있도록 특채하고 싶다고 하셨다. 내게 특이한 능력이 있다는 것을 알고 온 눈치였다. 바로 오래된 물건에 담긴 &#x27;기억&#x27;을 들을 수 있다는 것. 오늘 밤, 내가 이 사건을 쫓으려 한…</div>
+    
+    <div class="tfoot"><span class="tprice">잼핏 등록가 29,000원 (1인 기준)</span><span>평점 미형성 (리뷰 1)</span></div>
+  </div>
+</a>
+<a class="theme-card" href="https://web.zamfit.kr/escapes/6186" target="_blank" rel="noopener">
+  <div class="thumb"><img src="https://cdn.zamfit.co.kr/EscapeRoom/resize/397d7c20-c013-4b92-9762-43e7677d1c7c.png" alt="여고괴담 : 과학실 살인사건"><span class="rank">12위 근접</span></div>
+  <div class="tbody">
+    <div class="tname">여고괴담 : 과학실 살인사건</div>
+    <div class="tstore">이스케이프탑 광주점 · 광주 동구 충장로안길 7-1</div>
+    <div class="chips"><span class="chip lv">난이도 4</span><span class="chip walk">0.47km</span><span class="chip">스릴러</span><span class="chip">60분</span><span class="chip">인원 미등록</span><span class="chip">활동성 적음</span><span class="chip warnchip">표본 적음</span></div>
+    <div class="tintro"><span class="muted">잼핏에 등록된 테마 설명이 없습니다.</span></div>
+    <div class="tcaution">&#9888; 제목·소재가 학교 괴담 계열입니다. 잼핏 장르는 스릴러지만 공포 연출 가능성을 감안하세요.</div>
+    <div class="tfoot"><span class="tprice">가격 미등록</span><span>★ 3 (리뷰 1)</span></div>
+  </div>
+</a>
+<a class="theme-card" href="https://web.zamfit.kr/escapes/7212" target="_blank" rel="noopener">
+  <div class="thumb"><img src="https://cdn.zamfit.co.kr/escape-rooms/e0c16e10-dcee-434a-8fbf-d024cbbf0863.jpg" alt="붓깨비 구출대작전"><span class="rank">13위 근접</span></div>
+  <div class="tbody">
+    <div class="tname">붓깨비 구출대작전</div>
+    <div class="tstore">키득키득방탈출 · 광주 서구 풍암1로21번길 7 3층 1호</div>
+    <div class="chips"><span class="chip lv">난이도 4</span><span class="chip walk">4.30km</span><span class="chip">모험/탐험</span><span class="chip">30분</span><span class="chip">1~4인</span><span class="chip">활동성 적음</span><span class="chip warnchip">표본 적음</span></div>
+    <div class="tintro">붓깨비가 사라졌다! 이웃 마을 오니에게 납치된 것이 틀림 없어. 도깨비 친구들과 힘을 모아 붓깨비를 무사히 구출해내자!</div>
+    
+    <div class="tfoot"><span class="tprice">잼핏 등록가 11,000원 (1인 기준)</span><span>평점 미형성 (리뷰 0)</span></div>
+  </div>
+</a>
+<a class="theme-card" href="https://web.zamfit.kr/escapes/6015" target="_blank" rel="noopener">
+  <div class="thumb"><img src="https://cdn.zamfit.co.kr/EscapeRoom/resize/5ea1002a-6422-4adb-93e6-94db7074fe38.png" alt="비밀의 방"><span class="rank">14위 근접</span></div>
+  <div class="tbody">
+    <div class="tname">비밀의 방</div>
+    <div class="tstore">더코드 한신포차점 · 광주 서구 시청로60번길 10</div>
+    <div class="chips"><span class="chip lv">난이도 4</span><span class="chip walk">6.08km</span><span class="chip">잠입</span><span class="chip">60분</span><span class="chip">인원 미등록</span><span class="chip">활동성 보통</span></div>
+    <div class="tintro"><span class="muted">잼핏에 등록된 테마 설명이 없습니다.</span></div>
+    
+    <div class="tfoot"><span class="tprice">가격 미등록</span><span>★ 2.7 (리뷰 12)</span></div>
+  </div>
+</a>
+<a class="theme-card" href="https://web.zamfit.kr/escapes/5975" target="_blank" rel="noopener">
+  <div class="thumb"><img src="https://cdn.zamfit.co.kr/EscapeRoom/resize/a4005ee6-ab4d-4fb4-9ae4-ca76643d2d16.png" alt="경찰서를 털어라"><span class="rank">15위 근접</span></div>
+  <div class="tbody">
+    <div class="tname">경찰서를 털어라</div>
+    <div class="tstore">더코드 한신포차점 · 광주 서구 시청로60번길 10</div>
+    <div class="chips"><span class="chip lv">난이도 4</span><span class="chip walk">6.08km</span><span class="chip">잠입</span><span class="chip">60분</span><span class="chip">인원 미등록</span><span class="chip">활동성 많음</span></div>
+    <div class="tintro"><span class="muted">잼핏에 등록된 테마 설명이 없습니다.</span></div>
+    
+    <div class="tfoot"><span class="tprice">가격 미등록</span><span>★ 3.3 (리뷰 7)</span></div>
+  </div>
+</a>
+<a class="theme-card" href="https://web.zamfit.kr/escapes/5989" target="_blank" rel="noopener">
+  <div class="thumb"><img src="https://cdn.zamfit.co.kr/EscapeRoom/resize/57649a32-a78f-4938-a253-9393965114b3.png" alt="나홀로 집에"><span class="rank">16위 근접</span></div>
+  <div class="tbody">
+    <div class="tname">나홀로 집에</div>
+    <div class="tstore">더코드 한신포차점 · 광주 서구 시청로60번길 10</div>
+    <div class="chips"><span class="chip lv">난이도 4</span><span class="chip walk">6.08km</span><span class="chip">스릴러</span><span class="chip">60분</span><span class="chip">인원 미등록</span><span class="chip">활동성 적음</span></div>
+    <div class="tintro"><span class="muted">잼핏에 등록된 테마 설명이 없습니다.</span></div>
+    
+    <div class="tfoot"><span class="tprice">가격 미등록</span><span>★ 3.2 (리뷰 6)</span></div>
+  </div>
+</a>
+<a class="theme-card" href="https://web.zamfit.kr/escapes/6271" target="_blank" rel="noopener">
+  <div class="thumb"><img src="https://cdn.zamfit.co.kr/EscapeRoom/resize/cbffcb3a-42f4-4fc0-b6e5-18c938fb13b4.png" alt="탈옥"><span class="rank">17위 근접</span></div>
+  <div class="tbody">
+    <div class="tname">탈옥</div>
+    <div class="tstore">더코드 한신포차점 · 광주 서구 시청로60번길 10</div>
+    <div class="chips"><span class="chip lv">난이도 4</span><span class="chip walk">6.08km</span><span class="chip">범죄</span><span class="chip">60분</span><span class="chip">인원 미등록</span><span class="chip">활동성 많음</span></div>
+    <div class="tintro"><span class="muted">잼핏에 등록된 테마 설명이 없습니다.</span></div>
+    
+    <div class="tfoot"><span class="tprice">가격 미등록</span><span>★ 2.8 (리뷰 6)</span></div>
+  </div>
+</a>
+<a class="theme-card" href="https://web.zamfit.kr/escapes/6324" target="_blank" rel="noopener">
+  <div class="thumb"><img src="https://cdn.zamfit.co.kr/EscapeRoom/resize/626b26c1-3c00-434d-a7b8-0614ff696f95.png" alt="히어로 아카데미"><span class="rank">18위 근접</span></div>
+  <div class="tbody">
+    <div class="tname">히어로 아카데미</div>
+    <div class="tstore">룸즈에이 광주수완점 · 광주 광산구 장신로147번길 5-12</div>
+    <div class="chips"><span class="chip lv">난이도 4</span><span class="chip walk">9.92km</span><span class="chip">액션</span><span class="chip">60분</span><span class="chip">인원 미등록</span><span class="chip">활동성 적음</span></div>
+    <div class="tintro">어릴 적부터 나는 영화에서 나오는 슈퍼맨, 배트맨, 스파이더맨과 같은 영웅들이 어디엔가는 존재한다고 믿고, 그들을 동경해왔다. 나이가 들어서도 히어로를 꿈꾸는 나를 주변에서는 비웃었지만, 진정한 히어로는 그런 것 따위는 가볍게 무시할 수 있는 것이다. 그래서 나는 결심했다. 진짜 히어로가 되어 보이겠다고. 나는 히어로 아…</div>
+    
+    <div class="tfoot"><span class="tprice">가격 미등록</span><span>★ 3.1 (리뷰 5)</span></div>
+  </div>
+</a>
+  </div>
+</section>
+
+<section>
+  <h2>2. 반경 10km 방탈출 카페 20곳</h2>
+  <p class="lead">조건 통과 테마가 없는 매장도 전부 실었습니다. 다른 난이도를 원하실 때 쓰시라고 남겨둔 목록입니다.</p>
+  <div class="cafe-grid">
+<div class="cafe-card">
+  <div class="brand">에스케이프 <span class="km">0.13km</span></div>
+  <div class="addr">광주 동구 서석로 34-3 4층 · 062-232-0090</div>
+  <div class="themes">운영 테마 3개 · 레드, 베타 테스터, 링크 시즌 2</div>
+  <div class="hit">조건 통과: 베타 테스터, 레드, 링크 시즌 2</div>
+  <div class="cafe-links"><a href="https://booking.naver.com/booking/12/bizes/324331" target="_blank" rel="noopener">공식·예약 ↗</a><a href="https://map.naver.com/p/search/%EC%97%90%EC%8A%A4%EC%BC%80%EC%9D%B4%ED%94%84%20%EA%B4%91%EC%A3%BC%20%EB%8F%99%EA%B5%AC%20%EC%84%9C%EC%84%9D%EB%A1%9C%2034-3%204%EC%B8%B5" target="_blank" rel="noopener">지도 ↗</a></div>
+</div>
+<div class="cafe-card">
+  <div class="brand">숨바꼭질 3호점 <span class="km">0.15km</span></div>
+  <div class="addr">광주 동구 금남로 250-9 타임빌딩 4층 · 0507-1348-3897</div>
+  <div class="themes">운영 테마 2개 · 종결사건, 비공개모드</div>
+  
+  <div class="cafe-links"><a href="https://booking.naver.com/booking/12/bizes/634218" target="_blank" rel="noopener">공식·예약 ↗</a><a href="https://map.naver.com/p/search/%EC%88%A8%EB%B0%94%EA%BC%AD%EC%A7%88%203%ED%98%B8%EC%A0%90%20%EA%B4%91%EC%A3%BC%20%EB%8F%99%EA%B5%AC%20%EA%B8%88%EB%82%A8%EB%A1%9C%20250-9%20%ED%83%80%EC%9E%84%EB%B9%8C%EB%94%A9%204%EC%B8%B5" target="_blank" rel="noopener">지도 ↗</a></div>
+</div>
+<div class="cafe-card">
+  <div class="brand">러시아워 방탈출 카페 <span class="km">0.17km</span></div>
+  <div class="addr">광주 동구 충장로 100-1 4층 · 062-222-9768</div>
+  <div class="themes">운영 테마 5개 · 전생연분, 하루끝, 미끼, 녀, 빔 프로젝트</div>
+  <div class="hit">조건 통과: 전생연분</div>
+  <div class="cafe-links"><a href="https://booking.naver.com/booking/12/bizes/363514" target="_blank" rel="noopener">공식·예약 ↗</a><a href="https://map.naver.com/p/search/%EB%9F%AC%EC%8B%9C%EC%95%84%EC%9B%8C%20%EB%B0%A9%ED%83%88%EC%B6%9C%20%EC%B9%B4%ED%8E%98%20%EA%B4%91%EC%A3%BC%20%EB%8F%99%EA%B5%AC%20%EC%B6%A9%EC%9E%A5%EB%A1%9C%20100-1%204%EC%B8%B5" target="_blank" rel="noopener">지도 ↗</a></div>
+</div>
+<div class="cafe-card">
+  <div class="brand">비밀의 화원 광주점 <span class="km">0.29km</span></div>
+  <div class="addr">광주 동구 충장로 90 4층 · 062-226-7778</div>
+  <div class="themes">운영 테마 7개 · 비밀의 가족, 무고, 리비도, 라스트 잡, 새벽 베이커리, Love Blossom, 스토커</div>
+  
+  <div class="cafe-links"><a href="http://m.secretgardenescape.com/reservation.html?k_shopno=10" target="_blank" rel="noopener">공식·예약 ↗</a><a href="https://map.naver.com/p/search/%EB%B9%84%EB%B0%80%EC%9D%98%20%ED%99%94%EC%9B%90%20%EA%B4%91%EC%A3%BC%EC%A0%90%20%EA%B4%91%EC%A3%BC%20%EB%8F%99%EA%B5%AC%20%EC%B6%A9%EC%9E%A5%EB%A1%9C%2090%204%EC%B8%B5" target="_blank" rel="noopener">지도 ↗</a></div>
+</div>
+<div class="cafe-card">
+  <div class="brand">상상의문 광주점 <span class="km">0.36km</span></div>
+  <div class="addr">광주광역시 동구 충장로 80-5 · 062-226-1126</div>
+  <div class="themes">운영 테마 7개 · 영결식(靈結式), TITAN : 전쟁의경계, 캐치캣, 시크릿 왕국의 스캔들, 호러맨스, 서울만 가면 된다, 그럼에도 불구하고</div>
+  <div class="hit">조건 통과: 시크릿 왕국의 스캔들, 캐치캣</div>
+  <div class="cafe-links"><a href="https://xn--z92b74ha268d.com/layout/res/home.php?rev_days=2023-07-19&amp;s_zizum=4&amp;go=rev.make" target="_blank" rel="noopener">공식·예약 ↗</a><a href="https://map.naver.com/p/search/%EC%83%81%EC%83%81%EC%9D%98%EB%AC%B8%20%EA%B4%91%EC%A3%BC%EC%A0%90%20%EA%B4%91%EC%A3%BC%EA%B4%91%EC%97%AD%EC%8B%9C%20%EB%8F%99%EA%B5%AC%20%EC%B6%A9%EC%9E%A5%EB%A1%9C%2080-5" target="_blank" rel="noopener">지도 ↗</a></div>
+</div>
+<div class="cafe-card">
+  <div class="brand">러시아워 방탈출카페 3호점 시네마틱 <span class="km">0.38km</span></div>
+  <div class="addr">광주 동구 중앙로160번길 15-26 3층 · 010-6662-0002</div>
+  <div class="themes">운영 테마 3개 · 악녀: 은화 기숙학원(The Vicious One), 투스타(TO STAR), 빨간집 (赤い家, The Red House)</div>
+  
+  <div class="cafe-links"><a href="https://naver.me/5fI1yv3Y" target="_blank" rel="noopener">공식·예약 ↗</a><a href="https://map.naver.com/p/search/%EB%9F%AC%EC%8B%9C%EC%95%84%EC%9B%8C%20%EB%B0%A9%ED%83%88%EC%B6%9C%EC%B9%B4%ED%8E%98%203%ED%98%B8%EC%A0%90%20%EC%8B%9C%EB%84%A4%EB%A7%88%ED%8B%B1%20%EA%B4%91%EC%A3%BC%20%EB%8F%99%EA%B5%AC%20%EC%A4%91%EC%95%99%EB%A1%9C160%EB%B2%88%EA%B8%B8%2015-26%203%EC%B8%B5" target="_blank" rel="noopener">지도 ↗</a></div>
+</div>
+<div class="cafe-card">
+  <div class="brand">브레인 방탈출 <span class="km">0.40km</span></div>
+  <div class="addr">광주광역시 동구 중앙로160번길 15-2 3층 · 062-223-1440</div>
+  <div class="themes">운영 테마 6개 · 슈퍼빌런, 블랙리스트, SHIT, 썸, 필라멘트, 루머</div>
+  
+  <div class="cafe-links"><a href="https://booking.naver.com/booking/12/bizes/427883" target="_blank" rel="noopener">공식·예약 ↗</a><a href="https://map.naver.com/p/search/%EB%B8%8C%EB%A0%88%EC%9D%B8%20%EB%B0%A9%ED%83%88%EC%B6%9C%20%EA%B4%91%EC%A3%BC%EA%B4%91%EC%97%AD%EC%8B%9C%20%EB%8F%99%EA%B5%AC%20%EC%A4%91%EC%95%99%EB%A1%9C160%EB%B2%88%EA%B8%B8%2015-2%203%EC%B8%B5" target="_blank" rel="noopener">지도 ↗</a></div>
+</div>
+<div class="cafe-card">
+  <div class="brand">미션 브레이크 광주 CGV <span class="km">0.41km</span></div>
+  <div class="addr">광주광역시 동구 중앙로160번길 16-7 · 062-410-7174</div>
+  <div class="themes">운영 테마 7개 · 시그널 2018, 봉인의 탑: 마법사의 길, 책 읽어주는 남자, 시간 거래소, 탐정훈련소, 시그널 1989, 당감동 정육점</div>
+  <div class="hit">조건 통과: 당감동 정육점, 책 읽어주는 남자</div>
+  <div class="cafe-links"><a href="https://m.cgv.co.kr/WebApp/SpecialV4/PlayZoneDetail.aspx?idx=19&amp;v=184340" target="_blank" rel="noopener">공식·예약 ↗</a><a href="https://map.naver.com/p/search/%EB%AF%B8%EC%85%98%20%EB%B8%8C%EB%A0%88%EC%9D%B4%ED%81%AC%20%EA%B4%91%EC%A3%BC%20CGV%20%EA%B4%91%EC%A3%BC%EA%B4%91%EC%97%AD%EC%8B%9C%20%EB%8F%99%EA%B5%AC%20%EC%A4%91%EC%95%99%EB%A1%9C160%EB%B2%88%EA%B8%B8%2016-7" target="_blank" rel="noopener">지도 ↗</a></div>
+</div>
+<div class="cafe-card">
+  <div class="brand">시간의문 광주점 <span class="km">0.42km</span></div>
+  <div class="addr">광주 동구 중앙로160번길 15-3 3층 · 062-229-3135</div>
+  <div class="themes">운영 테마 9개 · 이건 계획에 없었는디?, DKDK, 쇼쿠진, 영안실, Chaser:한마음 폐공장, 복도끝 : 못다恨이야기, 혼숨, HERE I AM…</div>
+  <div class="hit">조건 통과: DKDK, 이건 계획에 없었는디?, Chaser:한마음 폐공장</div>
+  <div class="cafe-links"><a href="https://gateoftime.kr/reservation.html?keycode=YybEYe16XjtuRV7S" target="_blank" rel="noopener">공식·예약 ↗</a><a href="https://map.naver.com/p/search/%EC%8B%9C%EA%B0%84%EC%9D%98%EB%AC%B8%20%EA%B4%91%EC%A3%BC%EC%A0%90%20%EA%B4%91%EC%A3%BC%20%EB%8F%99%EA%B5%AC%20%EC%A4%91%EC%95%99%EB%A1%9C160%EB%B2%88%EA%B8%B8%2015-3%203%EC%B8%B5" target="_blank" rel="noopener">지도 ↗</a></div>
+</div>
+<div class="cafe-card">
+  <div class="brand">숨바꼭질 1호점 <span class="km">0.43km</span></div>
+  <div class="addr">광주광역시 동구 중앙로160번길 16-4 3층 · 062-225-4858</div>
+  <div class="themes">운영 테마 0개 · <span class="muted">등록 테마 없음</span></div>
+  
+  <div class="cafe-links"><a href="http://www.hideescape.com/layout/res/home.php?go=rev.make" target="_blank" rel="noopener">공식·예약 ↗</a><a href="https://map.naver.com/p/search/%EC%88%A8%EB%B0%94%EA%BC%AD%EC%A7%88%201%ED%98%B8%EC%A0%90%20%EA%B4%91%EC%A3%BC%EA%B4%91%EC%97%AD%EC%8B%9C%20%EB%8F%99%EA%B5%AC%20%EC%A4%91%EC%95%99%EB%A1%9C160%EB%B2%88%EA%B8%B8%2016-4%203%EC%B8%B5" target="_blank" rel="noopener">지도 ↗</a></div>
+</div>
+<div class="cafe-card">
+  <div class="brand">머더파커 광주점 <span class="km">0.43km</span></div>
+  <div class="addr">광주광역시 동구 충장로안길 14 3층 · 062-226-8788</div>
+  <div class="themes">운영 테마 0개 · <span class="muted">등록 테마 없음</span></div>
+  
+  <div class="cafe-links"><a href="http://murderparker.com/sub_02/sub02_1.html?JIJEM=A&amp;H_Date=2023-07-19" target="_blank" rel="noopener">공식·예약 ↗</a><a href="https://map.naver.com/p/search/%EB%A8%B8%EB%8D%94%ED%8C%8C%EC%BB%A4%20%EA%B4%91%EC%A3%BC%EC%A0%90%20%EA%B4%91%EC%A3%BC%EA%B4%91%EC%97%AD%EC%8B%9C%20%EB%8F%99%EA%B5%AC%20%EC%B6%A9%EC%9E%A5%EB%A1%9C%EC%95%88%EA%B8%B8%2014%203%EC%B8%B5" target="_blank" rel="noopener">지도 ↗</a></div>
+</div>
+<div class="cafe-card">
+  <div class="brand">이스케이프탑 광주점 <span class="km">0.47km</span></div>
+  <div class="addr">광주 동구 충장로안길 7-1 · 062-222-3010</div>
+  <div class="themes">운영 테마 5개 · 여고괴담 : 과학실 살인사건, 해리포터 : 마법사의 방, 프리즌 브레이크 : 1508, 킹스맨 : 요원의 자격, 원피스 : 보물 탈취작전</div>
+  <div class="hit">조건 통과: 여고괴담 : 과학실 살인사건</div>
+  <div class="cafe-links"><a href="https://booking.naver.com/booking/12/bizes/19971" target="_blank" rel="noopener">공식·예약 ↗</a><a href="https://map.naver.com/p/search/%EC%9D%B4%EC%8A%A4%EC%BC%80%EC%9D%B4%ED%94%84%ED%83%91%20%EA%B4%91%EC%A3%BC%EC%A0%90%20%EA%B4%91%EC%A3%BC%20%EB%8F%99%EA%B5%AC%20%EC%B6%A9%EC%9E%A5%EB%A1%9C%EC%95%88%EA%B8%B8%207-1" target="_blank" rel="noopener">지도 ↗</a></div>
+</div>
+<div class="cafe-card">
+  <div class="brand">식스센스 <span class="km">0.56km</span></div>
+  <div class="addr">광주 동구 중앙로 158-1 · 062-229-0803 </div>
+  <div class="themes">운영 테마 5개 · 나랏말싸미, 파노라마, 이 아이를 기억해주세요, 호텔 : 사라진 다이아몬드, 도둑들</div>
+  
+  <div class="cafe-links"><a href="https://booking.naver.com/booking/12/bizes/414814" target="_blank" rel="noopener">공식·예약 ↗</a><a href="https://map.naver.com/p/search/%EC%8B%9D%EC%8A%A4%EC%84%BC%EC%8A%A4%20%EA%B4%91%EC%A3%BC%20%EB%8F%99%EA%B5%AC%20%EC%A4%91%EC%95%99%EB%A1%9C%20158-1" target="_blank" rel="noopener">지도 ↗</a></div>
+</div>
+<div class="cafe-card">
+  <div class="brand">러시아워 로드맨션 <span class="km">3.33km</span></div>
+  <div class="addr">광주광역시 북구 우치로90번길 11 · 0507-1366-9768</div>
+  <div class="themes">운영 테마 4개 · 오드의 마법사, 우당탕탕 치즈탈환 대작전!, 듀얼, 지난날</div>
+  
+  <div class="cafe-links"><a href="https://booking.naver.com/booking/12/bizes/540364" target="_blank" rel="noopener">공식·예약 ↗</a><a href="https://map.naver.com/p/search/%EB%9F%AC%EC%8B%9C%EC%95%84%EC%9B%8C%20%EB%A1%9C%EB%93%9C%EB%A7%A8%EC%85%98%20%EA%B4%91%EC%A3%BC%EA%B4%91%EC%97%AD%EC%8B%9C%20%EB%B6%81%EA%B5%AC%20%EC%9A%B0%EC%B9%98%EB%A1%9C90%EB%B2%88%EA%B8%B8%2011" target="_blank" rel="noopener">지도 ↗</a></div>
+</div>
+<div class="cafe-card">
+  <div class="brand">숨바꼭질 2호점 <span class="km">3.43km</span></div>
+  <div class="addr">광주광역시 북구 우치로100번길 27 4층 · 062-267-4858</div>
+  <div class="themes">운영 테마 0개 · <span class="muted">등록 테마 없음</span></div>
+  
+  <div class="cafe-links"><a href="http://www.hideescape.com/layout/res/home.php?s_zizum=2&amp;go=rev.make" target="_blank" rel="noopener">공식·예약 ↗</a><a href="https://map.naver.com/p/search/%EC%88%A8%EB%B0%94%EA%BC%AD%EC%A7%88%202%ED%98%B8%EC%A0%90%20%EA%B4%91%EC%A3%BC%EA%B4%91%EC%97%AD%EC%8B%9C%20%EB%B6%81%EA%B5%AC%20%EC%9A%B0%EC%B9%98%EB%A1%9C100%EB%B2%88%EA%B8%B8%2027%204%EC%B8%B5" target="_blank" rel="noopener">지도 ↗</a></div>
+</div>
+<div class="cafe-card">
+  <div class="brand">판타지아 <span class="km">3.50km</span></div>
+  <div class="addr">광주광역시 북구 용봉동 153-9 · 0507-1343-3198</div>
+  <div class="themes">운영 테마 3개 · Get O, Get O!, 찬미특수진료센터 : The 1st Case, Inspecto : The 2nd case</div>
+  
+  <div class="cafe-links"><a href="https://booking.naver.com/booking/12/bizes/795803" target="_blank" rel="noopener">공식·예약 ↗</a><a href="https://map.naver.com/p/search/%ED%8C%90%ED%83%80%EC%A7%80%EC%95%84%20%EA%B4%91%EC%A3%BC%EA%B4%91%EC%97%AD%EC%8B%9C%20%EB%B6%81%EA%B5%AC%20%EC%9A%A9%EB%B4%89%EB%8F%99%20153-9" target="_blank" rel="noopener">지도 ↗</a></div>
+</div>
+<div class="cafe-card">
+  <div class="brand">키득키득방탈출 <span class="km">4.30km</span></div>
+  <div class="addr">광주 서구 풍암1로21번길 7 3층 1호 · 0507-1466-1352</div>
+  <div class="themes">운영 테마 6개 · 붓깨비 구출대작전, A/S 특공대, 지구방위대: 팽이대군의 습격, 스위치 호텔 , 라쿤!, 멜로디 팩토리</div>
+  <div class="hit">조건 통과: 붓깨비 구출대작전</div>
+  <div class="cafe-links"><a href="https://naver.me/xdp34G31" target="_blank" rel="noopener">공식·예약 ↗</a><a href="https://map.naver.com/p/search/%ED%82%A4%EB%93%9D%ED%82%A4%EB%93%9D%EB%B0%A9%ED%83%88%EC%B6%9C%20%EA%B4%91%EC%A3%BC%20%EC%84%9C%EA%B5%AC%20%ED%92%8D%EC%95%941%EB%A1%9C21%EB%B2%88%EA%B8%B8%207%203%EC%B8%B5%201%ED%98%B8" target="_blank" rel="noopener">지도 ↗</a></div>
+</div>
+<div class="cafe-card">
+  <div class="brand">룸즈에이 광주상무점 <span class="km">6.08km</span></div>
+  <div class="addr">광주 서구 상무번영로 37 · 062-383-8069</div>
+  <div class="themes">운영 테마 9개 · 커밍순, GRACE HOTEL, 띵가띵가, 뜻밖의 여행, 이상한 돈가스, 이 소리 저만 들리나요?, 아이돌 남친, 멍사탕…</div>
+  
+  <div class="cafe-links"><a href="https://roomsa.co.kr/reservation.html?keycode=MGnTj1P4GWWoAsyt" target="_blank" rel="noopener">공식·예약 ↗</a><a href="https://map.naver.com/p/search/%EB%A3%B8%EC%A6%88%EC%97%90%EC%9D%B4%20%EA%B4%91%EC%A3%BC%EC%83%81%EB%AC%B4%EC%A0%90%20%EA%B4%91%EC%A3%BC%20%EC%84%9C%EA%B5%AC%20%EC%83%81%EB%AC%B4%EB%B2%88%EC%98%81%EB%A1%9C%2037" target="_blank" rel="noopener">지도 ↗</a></div>
+</div>
+<div class="cafe-card">
+  <div class="brand">더코드 한신포차점 <span class="km">6.08km</span></div>
+  <div class="addr">광주 서구 시청로60번길 10 · 062-383-8823</div>
+  <div class="themes">운영 테마 10개 · 타짜, 곤지암, 경찰서를 털어라, 나홀로 집에, 탐정, 도둑들, 미생, 탈옥…</div>
+  <div class="hit">조건 통과: 비밀의 방, 경찰서를 털어라, 나홀로 집에, 탈옥</div>
+  <div class="cafe-links"><a href="http://www.thecode-escape.com/" target="_blank" rel="noopener">공식·예약 ↗</a><a href="https://map.naver.com/p/search/%EB%8D%94%EC%BD%94%EB%93%9C%20%ED%95%9C%EC%8B%A0%ED%8F%AC%EC%B0%A8%EC%A0%90%20%EA%B4%91%EC%A3%BC%20%EC%84%9C%EA%B5%AC%20%EC%8B%9C%EC%B2%AD%EB%A1%9C60%EB%B2%88%EA%B8%B8%2010" target="_blank" rel="noopener">지도 ↗</a></div>
+</div>
+<div class="cafe-card">
+  <div class="brand">룸즈에이 광주수완점 <span class="km">9.92km</span></div>
+  <div class="addr">광주 광산구 장신로147번길 5-12 · 062-959-8069</div>
+  <div class="themes">운영 테마 7개 · 낭랑카페, 뽀득뽀득, 방과 후, Secret Agent, 히어로 아카데미, 요정들의 술집, 너와 나의 이야기</div>
+  <div class="hit">조건 통과: 히어로 아카데미</div>
+  <div class="cafe-links"><a href="https://roomsa.co.kr/reservation.html?keycode=MGnTj1P4GWWoAsyt" target="_blank" rel="noopener">공식·예약 ↗</a><a href="https://map.naver.com/p/search/%EB%A3%B8%EC%A6%88%EC%97%90%EC%9D%B4%20%EA%B4%91%EC%A3%BC%EC%88%98%EC%99%84%EC%A0%90%20%EA%B4%91%EC%A3%BC%20%EA%B4%91%EC%82%B0%EA%B5%AC%20%EC%9E%A5%EC%8B%A0%EB%A1%9C147%EB%B2%88%EA%B8%B8%205-12" target="_blank" rel="noopener">지도 ↗</a></div>
+</div>
+  </div>
+</section>
+
+<section>
+  <h2>3. 요약표 (한눈에 · 테마명 클릭 → 잼핏 상세)</h2>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>#</th><th>매장</th><th>테마</th><th>장르</th><th>난이도</th><th>거리</th><th>시간</th><th>인원</th><th>활동성</th><th>가격</th><th>평점</th></tr></thead>
+    <tbody>
+<tr><td>1</td><td class="wrap-cell">에스케이프</td><td class="wrap-cell"><a href="https://web.zamfit.kr/escapes/6105" target="_blank" rel="noopener">베타 테스터 →</a></td><td>?</td><td>Lv4 ★★★★</td><td>0.13km</td><td>80분</td><td>인원 미등록</td><td>보통</td><td>가격 미등록</td><td>★ 4.1 (리뷰 38)</td></tr>
+<tr><td>2</td><td class="wrap-cell">에스케이프</td><td class="wrap-cell"><a href="https://web.zamfit.kr/escapes/6051" target="_blank" rel="noopener">레드 →</a></td><td>스릴러</td><td>Lv4 ★★★★</td><td>0.13km</td><td>80분</td><td>인원 미등록</td><td>보통</td><td>가격 미등록</td><td>★ 4.2 (리뷰 28)</td></tr>
+<tr><td>3</td><td class="wrap-cell">에스케이프</td><td class="wrap-cell"><a href="https://web.zamfit.kr/escapes/6063" target="_blank" rel="noopener">링크 시즌 2 →</a></td><td>잠입</td><td>Lv4 ★★★★</td><td>0.13km</td><td>120분</td><td>인원 미등록</td><td>많음</td><td>가격 미등록</td><td>★ 3.8 (리뷰 5)</td></tr>
+<tr><td>4</td><td class="wrap-cell">러시아워 방탈출 카페</td><td class="wrap-cell"><a href="https://web.zamfit.kr/escapes/6236" target="_blank" rel="noopener">전생연분 →</a></td><td>로맨스</td><td>Lv4 ★★★★</td><td>0.17km</td><td>75분</td><td>인원 미등록</td><td>많음</td><td>1인 25,000원 (매장 표기)</td><td>★ 4.1 (리뷰 31)</td></tr>
+<tr><td>5</td><td class="wrap-cell">상상의문 광주점</td><td class="wrap-cell"><a href="https://web.zamfit.kr/escapes/6174" target="_blank" rel="noopener">시크릿 왕국의 스캔들 →</a></td><td>추리</td><td>Lv4 ★★★★</td><td>0.36km</td><td>80분</td><td>인원 미등록</td><td>보통</td><td>가격 미등록</td><td>★ 3.6 (리뷰 18)</td></tr>
+<tr><td>6</td><td class="wrap-cell">상상의문 광주점</td><td class="wrap-cell"><a href="https://web.zamfit.kr/escapes/6249" target="_blank" rel="noopener">캐치캣 →</a></td><td>액션</td><td>Lv4 ★★★★</td><td>0.36km</td><td>45분</td><td>인원 미등록</td><td>보통</td><td>가격 미등록</td><td>★ 3.6 (리뷰 16)</td></tr>
+<tr><td>7</td><td class="wrap-cell">미션 브레이크 광주 CGV</td><td class="wrap-cell"><a href="https://web.zamfit.kr/escapes/6014" target="_blank" rel="noopener">당감동 정육점 →</a></td><td>스릴러</td><td>Lv4 ★★★★</td><td>0.41km</td><td>60분</td><td>인원 미등록</td><td>적음</td><td>가격 미등록</td><td>★ 2.8 (리뷰 6)</td></tr>
+<tr><td>8</td><td class="wrap-cell">미션 브레이크 광주 CGV</td><td class="wrap-cell"><a href="https://web.zamfit.kr/escapes/6247" target="_blank" rel="noopener">책 읽어주는 남자 →</a></td><td>로맨스</td><td>Lv4 ★★★★</td><td>0.41km</td><td>60분</td><td>인원 미등록</td><td>적음</td><td>가격 미등록</td><td>★ 3.2 (리뷰 2)</td></tr>
+<tr><td>9</td><td class="wrap-cell">시간의문 광주점</td><td class="wrap-cell"><a href="https://web.zamfit.kr/escapes/7151" target="_blank" rel="noopener">DKDK →</a></td><td>판타지</td><td>Lv4 ★★★★</td><td>0.42km</td><td>80분</td><td>2~6인</td><td>적음</td><td>잼핏 등록가 28,000원 (1인 기준)</td><td>평점 미형성 (리뷰 4)</td></tr>
+<tr><td>10</td><td class="wrap-cell">시간의문 광주점</td><td class="wrap-cell"><a href="https://web.zamfit.kr/escapes/7284" target="_blank" rel="noopener">이건 계획에 없었는디? →</a></td><td>스릴러</td><td>Lv4 ★★★★</td><td>0.42km</td><td>80분</td><td>2~6인</td><td>보통</td><td>잼핏 등록가 29,000원 (1인 기준)</td><td>평점 미형성 (리뷰 3)</td></tr>
+<tr><td>11</td><td class="wrap-cell">시간의문 광주점</td><td class="wrap-cell"><a href="https://web.zamfit.kr/escapes/7148" target="_blank" rel="noopener">Chaser:한마음 폐공장 →</a></td><td>스릴러</td><td>Lv4 ★★★★</td><td>0.42km</td><td>80분</td><td>2~6인</td><td>보통</td><td>잼핏 등록가 29,000원 (1인 기준)</td><td>평점 미형성 (리뷰 1)</td></tr>
+<tr><td>12</td><td class="wrap-cell">이스케이프탑 광주점</td><td class="wrap-cell"><a href="https://web.zamfit.kr/escapes/6186" target="_blank" rel="noopener">여고괴담 : 과학실 살인사건 →</a></td><td>스릴러</td><td>Lv4 ★★★★</td><td>0.47km</td><td>60분</td><td>인원 미등록</td><td>적음</td><td>가격 미등록</td><td>★ 3 (리뷰 1)</td></tr>
+<tr><td>13</td><td class="wrap-cell">키득키득방탈출</td><td class="wrap-cell"><a href="https://web.zamfit.kr/escapes/7212" target="_blank" rel="noopener">붓깨비 구출대작전 →</a></td><td>모험/탐험</td><td>Lv4 ★★★★</td><td>4.30km</td><td>30분</td><td>1~4인</td><td>적음</td><td>잼핏 등록가 11,000원 (1인 기준)</td><td>평점 미형성 (리뷰 0)</td></tr>
+<tr><td>14</td><td class="wrap-cell">더코드 한신포차점</td><td class="wrap-cell"><a href="https://web.zamfit.kr/escapes/6015" target="_blank" rel="noopener">비밀의 방 →</a></td><td>잠입</td><td>Lv4 ★★★★</td><td>6.08km</td><td>60분</td><td>인원 미등록</td><td>보통</td><td>가격 미등록</td><td>★ 2.7 (리뷰 12)</td></tr>
+<tr><td>15</td><td class="wrap-cell">더코드 한신포차점</td><td class="wrap-cell"><a href="https://web.zamfit.kr/escapes/5975" target="_blank" rel="noopener">경찰서를 털어라 →</a></td><td>잠입</td><td>Lv4 ★★★★</td><td>6.08km</td><td>60분</td><td>인원 미등록</td><td>많음</td><td>가격 미등록</td><td>★ 3.3 (리뷰 7)</td></tr>
+<tr><td>16</td><td class="wrap-cell">더코드 한신포차점</td><td class="wrap-cell"><a href="https://web.zamfit.kr/escapes/5989" target="_blank" rel="noopener">나홀로 집에 →</a></td><td>스릴러</td><td>Lv4 ★★★★</td><td>6.08km</td><td>60분</td><td>인원 미등록</td><td>적음</td><td>가격 미등록</td><td>★ 3.2 (리뷰 6)</td></tr>
+<tr><td>17</td><td class="wrap-cell">더코드 한신포차점</td><td class="wrap-cell"><a href="https://web.zamfit.kr/escapes/6271" target="_blank" rel="noopener">탈옥 →</a></td><td>범죄</td><td>Lv4 ★★★★</td><td>6.08km</td><td>60분</td><td>인원 미등록</td><td>많음</td><td>가격 미등록</td><td>★ 2.8 (리뷰 6)</td></tr>
+<tr><td>18</td><td class="wrap-cell">룸즈에이 광주수완점</td><td class="wrap-cell"><a href="https://web.zamfit.kr/escapes/6324" target="_blank" rel="noopener">히어로 아카데미 →</a></td><td>액션</td><td>Lv4 ★★★★</td><td>9.92km</td><td>60분</td><td>인원 미등록</td><td>적음</td><td>가격 미등록</td><td>★ 3.1 (리뷰 5)</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section>
+  <h2>4. 조사 범위와 제외 내역</h2>
+  <p class="lead">잼핏에 등록된 전국 매장 547곳을 전수로 받아 좌표로 걸렀고, 반경 안 <strong>20개 매장 · 테마 111개</strong>를 모두 상세 조회했습니다.</p>
+  <div class="tablewrap">
+  <table>
+    <thead><tr><th>구분</th><th>내용</th></tr></thead>
+    <tbody>
+      <tr><td>난이도 분포 (반경 내 전 테마)</td><td class="wrap-cell">Lv1 1개 · Lv2 12개 · Lv3 48개 · Lv4 23개 · Lv5 4개 · Lv미집계 23개</td></tr>
+      <tr><td>공포 장르로 제외 (난이도 4)</td><td class="wrap-cell">쇼쿠진(시간의문 광주점), 영안실(시간의문 광주점), 복도끝 : 못다恨이야기(시간의문 광주점), 방과 후(룸즈에이 광주수완점)</td></tr>
+      <tr><td>운영종료로 제외 (난이도 4)</td><td class="wrap-cell">꽃배(숨바꼭질 1호점)</td></tr>
+      <tr><td>난이도 미집계로 제외</td><td class="wrap-cell">잼핏에 난이도 투표가 없어 Level이 비어 있는 테마 23개 — 난이도 4 여부를 확인할 수 없어 제외했습니다.</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p><strong>출처</strong> · 난이도·장르·시간·인원·활동성·가격·평점은 전부
+      <a href="https://web.zamfit.kr/" target="_blank" rel="noopener">잼핏(zamfit)</a> 공개 API 실측값입니다.
+      기준점 좌표는 <a href="https://nominatim.openstreetmap.org/" target="_blank" rel="noopener">OpenStreetMap Nominatim</a>의 문화전당역 항목입니다.</p>
+    <p><strong>가격 표기</strong> · 잼핏에 가격이 등록되지 않은 테마는 "가격 미등록"으로 두었습니다. 추정값을 채워 넣지 않았으니 실제 금액은 각 매장 예약 페이지에서 확인하세요.</p>
+    <p><strong>주의</strong> · 잼핏의 매장 지역(state) 라벨에는 오류가 있어(광주 매장이 "부산"으로 적힌 사례 확인) 지역 판정에는 쓰지 않고 좌표만 사용했습니다.</p>
+    <p class="muted">기준일 2026-10-16 · 데이터 수집 시점의 잼핏 등록 정보 기준. 운영시간·휴무·실시간 예약 가능 여부는 반영하지 않았습니다.</p>
+  </div>
+</footer>
+
+</div>
+</body>
+</html>
